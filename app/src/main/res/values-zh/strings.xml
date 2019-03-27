@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Closet</string>
+
+    <string name="home">首页</string>
+    <string name="discover">发现</string>
+
+
+    <string name="press_again_exit">再按一次退出</string>
+
+    <string name="settings">设置</string>
+
+    <string name="msg">消息</string>
+    <string name="all">全部</string>
+
+    <string name="more">更多</string>
+    <string name="me">我的</string>
+
+
+    <string name="clothes">衣服</string>
+    <string name="outfits">搭配</string>
+    <string name="community">社区</string>
+</resources>
