@@ -2,21 +2,18 @@ package com.futuretech.closet.ui.fragment.first;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.futuretech.closet.R;
-import com.futuretech.closet.adapter.PagerFragmentAdapter;
 import com.futuretech.closet.base.BaseMainFragment;
+import com.futuretech.closet.ui.fragment.MainFragment;
 
 
 public class FirstTabFragment extends BaseMainFragment {
-    private TabLayout mTab;
 
-    private ViewPager mViewPager;
 
     public static FirstTabFragment newInstance() {
 
@@ -37,22 +34,24 @@ public class FirstTabFragment extends BaseMainFragment {
 
     private void initView(View view) {
 
-        mTab = (TabLayout) view.findViewById(R.id.tab);
-        mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
 
 
-        mTab.addTab(mTab.newTab());
-        mTab.addTab(mTab.newTab());
+        ImageView imageView = view.findViewById(R.id.mea);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainFragment) getParentFragment()).startBrotherFragment(ClothesFragment.newInstance());
+                //start(ClothesFragment.newInstance());
+
+            }
+        });
+
+
     }
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
 
-
-
-        mViewPager.setAdapter(new PagerFragmentAdapter(getChildFragmentManager()
-                , getString(R.string.all), getString(R.string.more)));
-        mTab.setupWithViewPager(mViewPager);
     }
 }

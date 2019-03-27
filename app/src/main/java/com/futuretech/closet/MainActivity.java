@@ -5,9 +5,11 @@ import android.support.annotation.Nullable;
 
 import com.futuretech.closet.ui.fragment.MainFragment;
 
+import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
+import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
 public class MainActivity extends SupportActivity {
 
@@ -19,6 +21,7 @@ public class MainActivity extends SupportActivity {
         if (findFragment(MainFragment.class) == null) {
             loadRootFragment(R.id.fl_container, MainFragment.newInstance());
         }
+
     }
 
     @Override
