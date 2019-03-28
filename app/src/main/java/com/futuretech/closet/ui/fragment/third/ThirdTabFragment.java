@@ -2,6 +2,7 @@ package com.futuretech.closet.ui.fragment.third;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import com.futuretech.closet.R;
 import com.futuretech.closet.base.BaseMainFragment;
 
 public class ThirdTabFragment extends BaseMainFragment {
+
+    Toolbar toolbar;
+
     public static ThirdTabFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -28,7 +32,8 @@ public class ThirdTabFragment extends BaseMainFragment {
     }
 
     private void initView(View view) {
-
+        toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.community);
     }
 
     @Override
