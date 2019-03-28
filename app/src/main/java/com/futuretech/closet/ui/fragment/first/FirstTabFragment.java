@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.support.v7.widget.Toolbar;
 
 import com.futuretech.closet.R;
 import com.futuretech.closet.base.BaseMainFragment;
@@ -14,6 +15,7 @@ import com.futuretech.closet.ui.fragment.MainFragment;
 
 public class FirstTabFragment extends BaseMainFragment {
 
+    Toolbar toolbar;
 
     public static FirstTabFragment newInstance() {
 
@@ -34,8 +36,6 @@ public class FirstTabFragment extends BaseMainFragment {
 
     private void initView(View view) {
 
-
-
         ImageView imageView = view.findViewById(R.id.mea);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +46,8 @@ public class FirstTabFragment extends BaseMainFragment {
             }
         });
 
+        toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.clothes);
 
     }
 
