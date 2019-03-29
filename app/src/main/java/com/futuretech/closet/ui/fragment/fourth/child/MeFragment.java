@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import me.yokeyword.fragmentation.SupportFragment;
 import com.futuretech.closet.R;
-import com.futuretech.closet.ui.fragment.fourth.FourthTabFragment;
+
 
 /**
  * Created by YoKeyword on 16/6/6.
@@ -35,7 +35,7 @@ public class MeFragment extends SupportFragment {
     }
 
     private void initView(View view) {
-        mTvBtnSettings = (TextView) view.findViewById(R.id.tv_btn_settings);
+        mTvBtnSettings = view.findViewById(R.id.tv_btn_settings);
         mTvBtnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,10 +45,5 @@ public class MeFragment extends SupportFragment {
         });
     }
 
-//    @Override
-//    public boolean onBackPressedSupport() {
-//        // 这里实际项目中推荐使用 EventBus接耦
-//        ((FourthTabFragment)getParentFragment()).onBackToFirstFragment();
-//        return true;
-//    }
+
 }
