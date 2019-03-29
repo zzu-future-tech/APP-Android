@@ -30,13 +30,8 @@ public class FourthTabFragment extends BaseMainFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_tab_fourth, container, false);
-        initView(mView);
         return mView;
     }
-
-    private void initView(View view) {
-    }
-
 
 
     @Override
