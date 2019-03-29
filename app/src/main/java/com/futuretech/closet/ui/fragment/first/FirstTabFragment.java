@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
@@ -20,7 +21,10 @@ import java.util.ArrayList;
 
 public class FirstTabFragment extends BaseMainFragment {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
+    private ListView listView;
+    private ClothesAdapterOne adapter;
+
 
     public static FirstTabFragment newInstance() {
 
@@ -54,7 +58,16 @@ public class FirstTabFragment extends BaseMainFragment {
         toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.clothes);
 
-        final ArrayList<ClothesOne> words = new ArrayList<ClothesOne>();
+        listView = view.findViewById(R.id.list);
+
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+
+
+        final ArrayList<ClothesOne> words = new ArrayList<>();
         words.add(new ClothesOne("RUA!0"));
         words.add(new ClothesOne("RUA!1"));
         words.add(new ClothesOne("RUA!2"));
@@ -67,19 +80,16 @@ public class FirstTabFragment extends BaseMainFragment {
         words.add(new ClothesOne("RUA!9"));
 
 
-        // Create an {@link WordAdapter}, whose data source is a list of {@link Word}s. The
-        // adapter knows how to create list items for each item in the list.
-        ClothesAdapterOne adapter = new ClothesAdapterOne(getActivity(), words);
-
-        ListView listView = (ListView) view.findViewById(R.id.list);
+        adapter = new ClothesAdapterOne(getActivity(), words);
 
         listView.setAdapter(adapter);
 
-    }
-
-    @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        super.onLazyInitView(savedInstanceState);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ((MainFragment) getParentFragment()).startBrotherFragment(ClothesFragment.newInstance());
+            }
+        });
 
     }
 }
