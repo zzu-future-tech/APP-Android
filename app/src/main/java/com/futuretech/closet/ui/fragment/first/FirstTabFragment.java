@@ -87,7 +87,8 @@ public class FirstTabFragment extends BaseMainFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((MainFragment) getParentFragment()).startBrotherFragment(ClothesFragment.newInstance());
+                String className = adapter.getItem(position).getName();
+                ((MainFragment) getParentFragment()).startBrotherFragment(ClothesFragment.newInstance(className));
             }
         });
 
