@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.futuretech.closet.ui.fragment.MainFragment;
+import com.futuretech.closet.ui.fragment.login.LoginFragment;
 
 import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.SupportActivity;
@@ -20,6 +21,7 @@ public class MainActivity extends SupportActivity {
 
         if (findFragment(MainFragment.class) == null) {
             loadRootFragment(R.id.fl_container, MainFragment.newInstance());
+            //loadRootFragment(R.id.fl_container, LoginFragment.newInstance());
         }
 
     }
