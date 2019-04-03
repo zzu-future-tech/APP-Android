@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import me.yokeyword.fragmentation.SupportFragment;
 import com.futuretech.closet.R;
 
-/**
- * Created by YoKeyword on 16/6/6.
- */
+
 public class AvatarFragment extends SupportFragment {
 
     public static AvatarFragment newInstance() {

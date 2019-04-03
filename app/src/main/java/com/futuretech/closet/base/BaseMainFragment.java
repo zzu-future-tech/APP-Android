@@ -5,10 +5,7 @@ import android.widget.Toast;
 import me.yokeyword.fragmentation.SupportFragment;
 import com.futuretech.closet.R;
 
-/**
- * 懒加载
- * Created by YoKeyword on 16/6/5.
- */
+
 public abstract class BaseMainFragment extends SupportFragment {
     // 再点一次退出程序时间设置
     private static final long WAIT_TIME = 2000L;
