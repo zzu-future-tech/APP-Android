@@ -1,10 +1,12 @@
 package com.futuretech.closet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.futuretech.closet.account.LoginActivity;
 import com.futuretech.closet.ui.fragment.MainFragment;
-import com.futuretech.closet.ui.fragment.login.LoginFragment;
+
 
 import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.SupportActivity;
@@ -19,9 +21,13 @@ public class MainActivity extends SupportActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+
         if (findFragment(MainFragment.class) == null) {
             loadRootFragment(R.id.fl_container, MainFragment.newInstance());
-            //loadRootFragment(R.id.fl_container, LoginFragment.newInstance());
         }
 
     }
