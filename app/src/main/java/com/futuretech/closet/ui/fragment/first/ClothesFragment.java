@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.futuretech.closet.R;
 import com.futuretech.closet.adapter.ClothesAdapterOne;
 import com.futuretech.closet.adapter.ClothesAdapterTwo;
+import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.model.ClothesOne;
 import com.futuretech.closet.model.ClothesTwo;
 import com.futuretech.closet.ui.fragment.MainFragment;
@@ -25,7 +26,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 
 
-public class ClothesFragment extends SupportFragment {
+public class ClothesFragment extends BaseBackFragment {
 
     private Toolbar toolbar;
     private GridView gridView;
@@ -52,15 +53,14 @@ public class ClothesFragment extends SupportFragment {
     }
 
     private void initView(View view) {
-//        TextView textView = view.findViewById(R.id.text);
-//        textView.setText(
-//                "getTopFragment:"+getTopFragment()+
-//                "\ngetPreFragment:"+getPreFragment());
 
         toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle(className);
 
         gridView = view.findViewById(R.id.grid_clothes);
+
+        //添加工具栏返回箭头
+        initToolbarNav(toolbar);
     }
 
     @Override
@@ -68,21 +68,10 @@ public class ClothesFragment extends SupportFragment {
         super.onLazyInitView(savedInstanceState);
 
         final ArrayList<ClothesTwo> words = new ArrayList<>();
-//        words.add(new ClothesTwo("RUA!0"));
-//        words.add(new ClothesTwo("RUA!1"));
-//        words.add(new ClothesTwo("RUA!2"));
-//        words.add(new ClothesTwo("RUA!3"));
-//        words.add(new ClothesTwo("RUA!4"));
-//        words.add(new ClothesTwo("RUA!5"));
-//        words.add(new ClothesTwo("RUA!6"));
-//        words.add(new ClothesTwo("RUA!7"));
-//        words.add(new ClothesTwo("RUA!8"));
-//        words.add(new ClothesTwo("RUA!9"));
 
         for(int i=0;i<20;i++){
             words.add(new ClothesTwo("RUA!"+i));
         }
-
 
         adapter = new ClothesAdapterTwo(getActivity(), words);
 
@@ -97,6 +86,9 @@ public class ClothesFragment extends SupportFragment {
         });
 
     }
+
+
+
 
 
 }
