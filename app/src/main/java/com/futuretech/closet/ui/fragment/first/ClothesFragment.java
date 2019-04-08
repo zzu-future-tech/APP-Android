@@ -8,21 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.futuretech.closet.R;
-import com.futuretech.closet.adapter.ClothesAdapterOne;
 import com.futuretech.closet.adapter.ClothesAdapterTwo;
 import com.futuretech.closet.base.BaseBackFragment;
-import com.futuretech.closet.model.ClothesOne;
 import com.futuretech.closet.model.ClothesTwo;
-import com.futuretech.closet.ui.fragment.MainFragment;
 
 import java.util.ArrayList;
-
-import me.yokeyword.fragmentation.SupportFragment;
 
 
 
@@ -32,6 +25,8 @@ public class ClothesFragment extends BaseBackFragment {
     private GridView gridView;
     private ClothesAdapterTwo adapter;
     private static String className;
+
+    private ArrayList<ClothesTwo> words = new ArrayList<>();
 
     public static ClothesFragment newInstance(String name) {
 
@@ -61,13 +56,12 @@ public class ClothesFragment extends BaseBackFragment {
 
         //添加工具栏返回箭头
         initToolbarNav(toolbar);
+
     }
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-
-        final ArrayList<ClothesTwo> words = new ArrayList<>();
 
         for(int i=0;i<20;i++){
             words.add(new ClothesTwo("RUA!"+i));

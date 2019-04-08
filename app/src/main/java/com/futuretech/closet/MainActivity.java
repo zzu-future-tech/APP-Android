@@ -7,12 +7,8 @@ import android.support.annotation.Nullable;
 import com.futuretech.closet.account.LoginActivity;
 import com.futuretech.closet.ui.fragment.MainFragment;
 
-
-import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.SupportActivity;
-import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
-import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
 public class MainActivity extends SupportActivity {
 
@@ -41,6 +37,7 @@ public class MainActivity extends SupportActivity {
     @Override
     public FragmentAnimator onCreateFragmentAnimator() {
         // 设置横向(和安卓4.x动画相同)
-        return new DefaultHorizontalAnimator();
+        //return new DefaultHorizontalAnimator();
+        return super.onCreateFragmentAnimator();
     }
 }
