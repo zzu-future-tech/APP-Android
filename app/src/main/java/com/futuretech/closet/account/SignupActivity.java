@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.futuretech.closet.R;
 
@@ -24,11 +27,19 @@ public class SignupActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
-    @BindView(R.id.input_name) EditText _nameText;
+    @BindView(R.id.input_code)
+    EditText _codeText;
+
+
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
+    @BindView(R.id.toggle_psw)
+    ToggleButton _pswToggle;
     @BindView(R.id.btn_signup) Button _signupButton;
     @BindView(R.id.link_login) TextView _loginLink;
+    @BindView(R.id.btn_code)
+    Button _codeButton;
+    private boolean isOpenEye = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,12 +63,55 @@ public class SignupActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        _codeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendCode();
+            }
+        });
+
+        //填写验证码后才允许点击
+        _signupButton.setEnabled(false);
+
+        _pswToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isOpenEye) {
+                    _pswToggle.setSelected(true);
+                    isOpenEye = true;
+                    //密码可见
+                    _passwordText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    _passwordText.setSelection(_passwordText.getText().length());
+                    _pswToggle.setBackground(getResources().getDrawable(R.drawable.ic_eye_closed));
+
+                } else {
+                    _pswToggle.setSelected(false);
+                    isOpenEye = false;
+                    //密码不可见
+                    _passwordText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    _passwordText.setSelection(_passwordText.getText().length());
+                    _pswToggle.setBackground(getResources().getDrawable(R.drawable.ic_eye_open));
+                }
+            }
+        });
+    }
+
+    //点击发送验证码按钮后的操作
+    public void sendCode() {
+        if (!validate()) {
+            onSignupFailed();
+            return;
+        }
+        //TODO:发送邮箱密码 通知服务器发送验证码
+
+        _signupButton.setEnabled(true);
     }
 
     public void signup() {
         Log.d(TAG, "Signup");
 
-        if (!validate()) {
+        if (!validateCode()) {
             onSignupFailed();
             return;
         }
@@ -70,11 +124,12 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
+
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+        String code = _codeText.getText().toString();
 
-        // TODO: 连接服务器注册
+        // TODO: 发送邮箱密码验证码
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -113,7 +168,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Signup failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -121,16 +176,9 @@ public class SignupActivity extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
-        String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
-            valid = false;
-        } else {
-            _nameText.setError(null);
-        }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _emailText.setError("enter a valid email address");
@@ -146,6 +194,19 @@ public class SignupActivity extends AppCompatActivity {
             _passwordText.setError(null);
         }
 
+        return valid;
+    }
+
+    public boolean validateCode() {
+        boolean valid = true;
+        String code = _codeText.getText().toString();
+
+        if (code.isEmpty() || code.length() != 4) {
+            _codeText.setError("请输入四位有效验证码");
+            valid = false;
+        } else {
+            _codeText.setError(null);
+        }
         return valid;
     }
 }
