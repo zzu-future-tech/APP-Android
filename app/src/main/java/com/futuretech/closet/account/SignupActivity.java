@@ -29,7 +29,6 @@ public class SignupActivity extends AppCompatActivity {
 
     @BindView(R.id.input_code)
     EditText _codeText;
-
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
     @BindView(R.id.toggle_psw)
@@ -72,6 +71,8 @@ public class SignupActivity extends AppCompatActivity {
 
         //填写验证码后才允许点击
         _signupButton.setEnabled(false);
+        //发送验证码后才允许填写
+        _codeText.setEnabled(false);
 
         _pswToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +100,11 @@ public class SignupActivity extends AppCompatActivity {
     //点击发送验证码按钮后的操作
     public void sendCode() {
         if (!validate()) {
-            onSignupFailed();
+            //onSignupFailed();
+            Toast.makeText(getBaseContext(), "请输入有效的邮箱及密码", Toast.LENGTH_LONG).show();
             return;
         }
+        _codeText.setEnabled(true);
         //TODO:发送邮箱密码 通知服务器发送验证码
 
         _signupButton.setEnabled(true);
