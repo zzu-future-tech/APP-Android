@@ -17,26 +17,35 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.futuretech.closet.R;
+import com.futuretech.closet.utils.StatusCode;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
-
+    private static final String OK = "1";
     @BindView(R.id.input_code)
     EditText _codeText;
-    @BindView(R.id.input_email) EditText _emailText;
-    @BindView(R.id.input_password) EditText _passwordText;
     @BindView(R.id.toggle_psw)
     ToggleButton _pswToggle;
-    @BindView(R.id.btn_signup) Button _signupButton;
-    @BindView(R.id.link_login) TextView _loginLink;
+    @BindView(R.id.input_email) EditText _emailText;
+    @BindView(R.id.input_password) EditText _passwordText;
     @BindView(R.id.btn_code)
     Button _codeButton;
+    @BindView(R.id.btn_signup) Button _signupButton;
+    @BindView(R.id.link_login) TextView _loginLink;
+    private ProgressDialog progressDialog;
     private boolean isOpenEye = false;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,9 +76,9 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         //填写验证码后才允许点击
-        _signupButton.setEnabled(false);
+        //_signupButton.setEnabled(false);
         //发送验证码后才允许填写
-        _codeText.setEnabled(false);
+        //_codeText.setEnabled(false);
 
         _pswToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,10 +110,17 @@ public class SignupActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "请输入有效的邮箱及密码", Toast.LENGTH_LONG).show();
             return;
         }
-        _codeText.setEnabled(true);
-        //TODO:发送邮箱密码 通知服务器发送验证码
 
-        _signupButton.setEnabled(true);
+        progressDialog = new ProgressDialog(SignupActivity.this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("正在发送验证码");
+        progressDialog.show();
+
+
+        String email = _emailText.getText().toString();
+        String password = _passwordText.getText().toString();
+        //TODO:发送邮箱密码 通知服务器发送验证码
+        doSignup1(email, password);
     }
 
     public void signup() {
@@ -117,28 +133,17 @@ public class SignupActivity extends AppCompatActivity {
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this);
+        progressDialog = new ProgressDialog(SignupActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-
         String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
         String code = _codeText.getText().toString();
-
         // TODO: 发送邮箱密码验证码
+        doSignup2(email, code);
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 1000);
+
     }
 
 
@@ -170,6 +175,19 @@ public class SignupActivity extends AppCompatActivity {
 
         _signupButton.setEnabled(true);
     }
+
+    public void onSendCodeSuccess() {
+        _signupButton.setEnabled(true);
+        _codeText.setEnabled(true);
+        //不允许修改账号密码
+        _emailText.setEnabled(false);
+        _passwordText.setEnabled(false);
+    }
+
+    public void onSendCodeFailed() {
+        Toast.makeText(getBaseContext(), "发送验证码失败", Toast.LENGTH_LONG).show();
+    }
+
 
     public boolean validate() {
         boolean valid = true;
@@ -206,5 +224,107 @@ public class SignupActivity extends AppCompatActivity {
             _codeText.setError(null);
         }
         return valid;
+    }
+
+    public void doSignup1(String email, String psw) {
+        //创建okHttpClient对象
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        //String url = "http://39.105.83.165/service/user/insertUser.action"+"?userid="+email+"&password="+psw;
+        String url = "http://39.105.83.165/service/user/insertUser.action";
+        //Log.d(TAG, "url="+url);
+
+        FormBody formBody = new FormBody
+                .Builder()
+                .add("userid", email)
+                .add("password", psw)
+                .build();
+
+
+        //创建一个Request
+        Request request = new Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build();
+        //new call
+        Call call = mOkHttpClient.newCall(request);
+        //请求加入调度
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "网络请求失败");
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    onSendCodeFailed();
+                    progressDialog.dismiss();
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                StatusCode statusCode = new StatusCode(response);
+                Log.d(TAG, "doSignup1 网络请求返回码:" + response.code());
+                //Log.d(TAG, "doSignup1 网络请求返回:" + response.body().string());
+                if (OK.equals(statusCode.getStatus())) {
+                    runOnUiThread(() -> {
+                        onSendCodeSuccess();
+                        progressDialog.dismiss();
+                    });
+                } else {
+                    runOnUiThread(() -> {
+                        onSendCodeFailed();
+                        progressDialog.dismiss();
+                    });
+                }
+            }
+        });
+    }
+
+    public void doSignup2(String email, String code) {
+        //创建okHttpClient对象
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+
+        FormBody formBody = new FormBody
+                .Builder()
+                .add("userid", email)
+                .add("checkNum", code)
+                .build();
+
+        //创建一个Request
+        Request request = new Request.Builder()
+                .url("http://39.105.83.165/service/user/avtivateUser.action")
+                .post(formBody)
+                .build();
+        //new call
+        Call call = mOkHttpClient.newCall(request);
+        //请求加入调度
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "网络请求失败");
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    onSignupFailed();
+                    progressDialog.dismiss();
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                StatusCode statusCode = new StatusCode(response);
+                Log.d(TAG, "doSignup2 网络请求返回码:" + response.code());
+                //Log.d(TAG, "doSignup2 网络请求返回:" + response.body().string());
+                if (OK.equals(statusCode.getStatus())) {
+                    runOnUiThread(() -> {
+                        onSignupSuccess();
+                        progressDialog.dismiss();
+                    });
+                } else {
+                    runOnUiThread(() -> {
+                        onSignupFailed();
+                        progressDialog.dismiss();
+                    });
+                }
+            }
+        });
     }
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.futuretech.closet.R;
+import com.futuretech.closet.utils.StatusCode;
 
 import java.io.IOException;
 
@@ -29,6 +30,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
+    private static final String OK = "1";
     private static final int REQUEST_SIGNUP = 0;
 
     private SharedPreferences sharedPreferences;
@@ -93,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO: 连接服务器验证账号密码
-        doLogin();
+        doLogin(email, password);
 
         // 创建SharedPreferences对象用于储存帐号和密码,并将其私有化
         SharedPreferences share = getSharedPreferences("Login",
@@ -171,19 +173,19 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    public void doLogin() {
+    public void doLogin(String email, String psw) {
         //创建okHttpClient对象
         OkHttpClient mOkHttpClient = new OkHttpClient();
 
         FormBody formBody = new FormBody
                 .Builder()
-                .add("username", "initObject")
-                .add("password", "initObject")
+                .add("userid", email)
+                .add("password", psw)
                 .build();
 
         //创建一个Request
         Request request = new Request.Builder()
-                .url("https://www.baidu.com")
+                .url("http://39.105.83.165/service/user/userLogin.action")
                 .post(formBody)
                 .build();
         //new call
@@ -193,25 +195,29 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d(TAG, "网络请求失败");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        onLoginFailed();
-                        progressDialog.dismiss();
-                    }
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    onLoginFailed();
+                    progressDialog.dismiss();
                 });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d(TAG, "网络请求返回码:" + response.code());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+                StatusCode statusCode = new StatusCode(response);
+                Log.d(TAG, "doLogin 网络请求返回码:" + response.code());
+                //Log.d(TAG, "doLogin 网络请求返回:" + response.body().string());
+                if ("100".equals(statusCode.getStatus())) {
+                    runOnUiThread(() -> {
                         onLoginSuccess();
                         progressDialog.dismiss();
-                    }
-                });
+                    });
+                } else {
+                    runOnUiThread(() -> {
+                        onLoginFailed();
+                        progressDialog.dismiss();
+                    });
+                }
             }
         });
     }
