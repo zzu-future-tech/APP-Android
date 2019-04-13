@@ -15,8 +15,16 @@ import android.widget.Toast;
 
 import com.futuretech.closet.R;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -24,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_SIGNUP = 0;
 
     private SharedPreferences sharedPreferences;
+
+    private ProgressDialog progressDialog;
 
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
@@ -74,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
         _loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
@@ -83,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO: 连接服务器验证账号密码
+        doLogin();
 
         // 创建SharedPreferences对象用于储存帐号和密码,并将其私有化
         SharedPreferences share = getSharedPreferences("Login",
@@ -96,15 +107,15 @@ public class LoginActivity extends AppCompatActivity {
         editor.apply();
 
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 500);
+//        new android.os.Handler().postDelayed(
+//                new Runnable() {
+//                    public void run() {
+//                        // On complete call either onLoginSuccess or onLoginFailed
+//                        onLoginSuccess();
+//                        // onLoginFailed();
+//                        progressDialog.dismiss();
+//                    }
+//                }, 500);
     }
 
 
@@ -158,5 +169,50 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    public void doLogin() {
+        //创建okHttpClient对象
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+
+        FormBody formBody = new FormBody
+                .Builder()
+                .add("username", "initObject")
+                .add("password", "initObject")
+                .build();
+
+        //创建一个Request
+        Request request = new Request.Builder()
+                .url("https://www.baidu.com")
+                .post(formBody)
+                .build();
+        //new call
+        Call call = mOkHttpClient.newCall(request);
+        //请求加入调度
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "网络请求失败");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        onLoginFailed();
+                        progressDialog.dismiss();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d(TAG, "网络请求返回码:" + response.code());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        onLoginSuccess();
+                        progressDialog.dismiss();
+                    }
+                });
+            }
+        });
     }
 }

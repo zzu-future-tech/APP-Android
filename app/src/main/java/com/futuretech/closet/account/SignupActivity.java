@@ -25,8 +25,6 @@ import butterknife.ButterKnife;
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
-    private SharedPreferences sharedPreferences;
-
     @BindView(R.id.input_code)
     EditText _codeText;
     @BindView(R.id.input_email) EditText _emailText;
@@ -39,13 +37,12 @@ public class SignupActivity extends AppCompatActivity {
     Button _codeButton;
     private boolean isOpenEye = false;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
-
-        sharedPreferences = this.getSharedPreferences("Login", Context.MODE_PRIVATE);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,10 +148,10 @@ public class SignupActivity extends AppCompatActivity {
 
         //保存输入的账号密码
         // 创建SharedPreferences对象用于储存帐号和密码,并将其私有化
-        SharedPreferences share = getSharedPreferences("Login",
+        SharedPreferences sharedPreferences = getSharedPreferences("Login",
                 Context.MODE_PRIVATE);
         // 获取编辑器来存储数据到sharedpreferences中
-        SharedPreferences.Editor editor = share.edit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Email", _emailText.getText().toString());
         editor.putString("Password",_passwordText.getText().toString());
         editor.putBoolean("LoginBool", true);
