@@ -2,12 +2,11 @@ package com.futuretech.closet.ui.fragment.first;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
 import com.futuretech.closet.R;
@@ -81,6 +80,7 @@ public class FirstTabFragment extends BaseMainFragment {
                 String className = adapter.getItem(position).getName();
                 //启动兄弟fragment
                 ((MainFragment) getParentFragment()).startBrotherFragment(ClothesFragment.newInstance(className));
+                //start(ClothesFragment.newInstance(className));
             }
         });
 

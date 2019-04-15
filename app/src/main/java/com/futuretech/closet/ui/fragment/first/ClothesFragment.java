@@ -2,6 +2,7 @@ package com.futuretech.closet.ui.fragment.first;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,9 @@ import com.futuretech.closet.R;
 import com.futuretech.closet.adapter.ClothesAdapterTwo;
 import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.model.ClothesTwo;
+import com.futuretech.closet.ui.fragment.first.add.AddClothesFragment;
 
 import java.util.ArrayList;
-
 
 
 public class ClothesFragment extends BaseBackFragment {
@@ -25,6 +26,7 @@ public class ClothesFragment extends BaseBackFragment {
     private GridView gridView;
     private ClothesAdapterTwo adapter;
     private static String className;
+    private FloatingActionButton addBtn;
 
     private ArrayList<ClothesTwo> words = new ArrayList<>();
 
@@ -57,6 +59,13 @@ public class ClothesFragment extends BaseBackFragment {
         //添加工具栏返回箭头
         initToolbarNav(toolbar);
 
+        addBtn = view.findViewById(R.id.add_clothes);
+
+        addBtn.setOnClickListener(v -> {
+            //((MainFragment) getParentFragment()).startBrotherFragment(AddClothesFragment.newInstance(className));
+            start(AddClothesFragment.newInstance(className));
+        });
+
     }
 
     @Override
@@ -78,6 +87,7 @@ public class ClothesFragment extends BaseBackFragment {
                 Toast.makeText(getActivity(), "点击了"+adapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });
+
 
     }
 
