@@ -83,8 +83,9 @@ public class ClothesFragment extends BaseBackFragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //((MainFragment) getParentFragment()).startBrotherFragment(ClothesFragment.newInstance());
-                Toast.makeText(getActivity(), "点击了"+adapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
+                String className = adapter.getItem(position).getName();
+                start(ClothesInfoFragment.newInstance(className));
+                //Toast.makeText(getActivity(), "点击了"+adapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });
 

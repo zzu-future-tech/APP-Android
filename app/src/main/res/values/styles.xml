@@ -32,7 +32,9 @@
     <style name="AppTheme.NoActionBar.AppBarOverlay"
         parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
 
-    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+    </style>
 
     <style name="AppTheme.NoActionBar.SwipeBack">
         <item name="android:windowIsTranslucent">true</item>
@@ -40,6 +42,10 @@
 
     <style name="tab_appearance">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item> <!--把该属性改为false即可使menu位置位于toolbar之下-->
     </style>
 
 </resources>
