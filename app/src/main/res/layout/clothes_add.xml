@@ -19,14 +19,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/photo"
                 android:layout_width="match_parent"
 
                 android:layout_height="300dp"
                 app:srcCompat="@drawable/mea" />
+
+            <Button
+                android:id="@+id/takePic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="拍照" />
+
+            <Button
+                android:id="@+id/gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相册" />
 
         </LinearLayout>
     </ScrollView>
