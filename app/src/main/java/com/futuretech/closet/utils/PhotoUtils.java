@@ -15,6 +15,9 @@ import android.util.Log;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
+import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+
 /**
  * @author zhengzhong on 2016/8/6 16:16
  * Email zheng_zhong@163.com
@@ -32,6 +35,8 @@ public class PhotoUtils {
         Intent intentCamera = new Intent();
         intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         //将拍照结果保存至photo_file的Uri中，不保留在相册中
+        intentCamera.addFlags(FLAG_GRANT_READ_URI_PERMISSION);
+        intentCamera.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION);
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         Log.d(TAG, "takePicture: " + imageUri);
         fragment.startActivityForResult(intentCamera, requestCode);
@@ -41,12 +46,11 @@ public class PhotoUtils {
      * @param fragment    当前fragment
      * @param requestCode 打开相册的请求码
      */
-    public static void openPic(SupportFragment fragment, int requestCode) {
+    public static void openPic( SupportFragment fragment, int requestCode) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
         photoPickerIntent.setType("image/*");
         fragment.startActivityForResult(photoPickerIntent, requestCode);
     }
-
     /**
      * @param fragment    当前fragment
      * @param orgUri      剪裁原图的Uri
@@ -60,7 +64,7 @@ public class PhotoUtils {
     public static void cropImageUri(SupportFragment fragment, Uri orgUri, Uri desUri, int aspectX, int aspectY, int width, int height, int requestCode) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(FLAG_GRANT_READ_URI_PERMISSION);
         }
         intent.setDataAndType(orgUri, "image/*");
         //发送裁剪信号
