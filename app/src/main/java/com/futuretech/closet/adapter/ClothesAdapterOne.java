@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.futuretech.closet.R;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class ClothesAdapterOne extends ArrayAdapter<ClothesOne> {
+
+
 
     public ClothesAdapterOne(@NonNull Context context, @NonNull List<ClothesOne> objects) {
         super(context, 0, objects);
@@ -34,6 +37,10 @@ public class ClothesAdapterOne extends ArrayAdapter<ClothesOne> {
         }
 
         ClothesOne currentItem = getItem(position);
+        //设置图片和文字
+        ImageView imageView=listItemView.findViewById(R.id.imageView);
+        imageView.setImageDrawable(this.getContext().getResources().getDrawable(Objects.requireNonNull(currentItem).getImageSrc()));
+
         TextView textView = listItemView.findViewById(R.id.textView);
         textView.setText(Objects.requireNonNull(currentItem).getName());
 

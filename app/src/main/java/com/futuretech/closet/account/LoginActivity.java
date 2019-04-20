@@ -207,7 +207,7 @@ public class LoginActivity extends AppCompatActivity {
                 StatusCode statusCode = new StatusCode(response);
                 Log.d(TAG, "doLogin 网络请求返回码:" + response.code());
                 //Log.d(TAG, "doLogin 网络请求返回:" + response.body().string());
-                if ("100".equals(statusCode.getStatus())) {
+                if ("1".equals(statusCode.getStatus())) {
                     runOnUiThread(() -> {
                         onLoginSuccess();
                         progressDialog.dismiss();

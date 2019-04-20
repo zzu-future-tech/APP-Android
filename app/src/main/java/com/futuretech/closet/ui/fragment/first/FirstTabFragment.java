@@ -54,18 +54,17 @@ public class FirstTabFragment extends BaseMainFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
+        //建立衣服类型的名称和图片对应的数组
+        String[] names={"T恤","外套","卫衣","衬衫","西装","大衣","风衣","棉衣","毛衣","连衣裙","短裤","长裤","裙子","牛仔裤"};
+        int[] resImages={R.drawable.clothes_tshirt,R.drawable.clothes_coat,R.drawable.clothes_fleece,R.drawable.clothes_shirt,
+                R.drawable.clothes_xizhuang,R.drawable.clothes_dayi,R.drawable.clothes_fengyi,R.drawable.clothes_mianyi,R.drawable.clothes_maoyi,
+                R.drawable.clothes_dress,R.drawable.clothes_duanku,R.drawable.clothes_changku,R.drawable.clothes_skirt,R.drawable.clothes_niuzaiku};
 
         final ArrayList<ClothesOne> words = new ArrayList<>();
-        words.add(new ClothesOne("RUA!0"));
-        words.add(new ClothesOne("RUA!1"));
-        words.add(new ClothesOne("RUA!2"));
-        words.add(new ClothesOne("RUA!3"));
-        words.add(new ClothesOne("RUA!4"));
-        words.add(new ClothesOne("RUA!5"));
-        words.add(new ClothesOne("RUA!6"));
-        words.add(new ClothesOne("RUA!7"));
-        words.add(new ClothesOne("RUA!8"));
-        words.add(new ClothesOne("RUA!9"));
+        for(int i=0;i<14;i++) {
+            words.add(new ClothesOne(names[i], resImages[i]));
+        }
+
 
         //初始化adapter
         adapter = new ClothesAdapterOne(getActivity(), words);
