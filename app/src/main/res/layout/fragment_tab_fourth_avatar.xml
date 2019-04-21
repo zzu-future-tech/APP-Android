@@ -5,9 +5,9 @@
               android:background="@color/colorPrimary"
               android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:src="@drawable/ic_account_circle_white_48dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:src="@drawable/mea"
         android:layout_gravity="center"
-        android:layout_height="80dp"/>
+        android:layout_height="100dp"/>
 </FrameLayout>
