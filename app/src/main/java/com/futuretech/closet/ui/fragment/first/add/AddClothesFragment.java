@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.futuretech.closet.R;
+import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.utils.PhotoUtils;
 import com.futuretech.closet.utils.ToastUtils;
 
@@ -31,9 +32,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import me.yokeyword.fragmentation.SupportFragment;
 
-public class AddClothesFragment extends SupportFragment {
+public class AddClothesFragment extends BaseBackFragment {
     private static final String TAG = "PhotoImageFragment";
     private static String clothesClassName;
     @BindView(R.id.photo)
@@ -80,9 +80,9 @@ public class AddClothesFragment extends SupportFragment {
 
     private void initView(View view) {
         toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle(clothesClassName);
+        toolbar.setTitle("添加新"+clothesClassName);
         //添加工具栏返回箭头
-        //initToolbarNav(toolbar);
+        initToolbarNav(toolbar);
     }
 
     @Override

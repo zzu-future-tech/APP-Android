@@ -1,18 +1,28 @@
 package com.futuretech.closet.ui.fragment.fourth.child;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import me.yokeyword.fragmentation.SupportFragment;
+import com.futuretech.closet.MainActivity;
 import com.futuretech.closet.R;
+
+import me.yokeyword.fragmentation.SupportFragment;
+
+import static android.support.constraint.Constraints.TAG;
 
 
 public class MeFragment extends SupportFragment {
     private TextView mTvBtnSettings;
+    private TextView mTvBtnLogout;
+    private SharedPreferences sharedPreferences;
 
     public static MeFragment newInstance() {
 
@@ -39,6 +49,21 @@ public class MeFragment extends SupportFragment {
                 start(SettingsFragment.newInstance());
 
             }
+        });
+
+        mTvBtnLogout = view.findViewById(R.id.tv_btn_logout);
+        mTvBtnLogout.setOnClickListener(v -> {
+            //注销登录
+            Log.d(TAG, "注销成功！");
+            sharedPreferences = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("LoginBool", false);
+            editor.apply();
+            Intent outIntent = new Intent(getActivity(),
+                    MainActivity.class);
+            outIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(outIntent);
         });
     }
 

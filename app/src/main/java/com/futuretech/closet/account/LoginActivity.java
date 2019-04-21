@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -56,23 +55,19 @@ public class LoginActivity extends AppCompatActivity {
         _emailText.setText(share.getString("Email", ""));
         _passwordText.setText(share.getString("Password", ""));
 
+        //自动登录
+        if(share.getBoolean("LoginBool",false)){
+            login();
+        }
 
-        _loginButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                login();
-            }
+        _loginButton.setOnClickListener(v -> {
+            login();
         });
 
-        _signupLink.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // Start the Signup activity
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
-            }
+        _signupLink.setOnClickListener(v -> {
+            // Start the Signup activity
+            Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+            startActivityForResult(intent, REQUEST_SIGNUP);
         });
     }
 
@@ -94,30 +89,19 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: 连接服务器验证账号密码
+        // 连接服务器验证账号密码
         doLogin(email, password);
 
         // 创建SharedPreferences对象用于储存帐号和密码,并将其私有化
-        SharedPreferences share = getSharedPreferences("Login",
+        sharedPreferences = getSharedPreferences("Login",
                 Context.MODE_PRIVATE);
         // 获取编辑器来存储数据到sharedpreferences中
-        SharedPreferences.Editor editor = share.edit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Email", email);
         editor.putString("Password",password);
         editor.putBoolean("LoginBool", true);
         // 将数据提交到sharedpreferences中
         editor.apply();
-
-
-//        new android.os.Handler().postDelayed(
-//                new Runnable() {
-//                    public void run() {
-//                        // On complete call either onLoginSuccess or onLoginFailed
-//                        onLoginSuccess();
-//                        // onLoginFailed();
-//                        progressDialog.dismiss();
-//                    }
-//                }, 500);
     }
 
 
