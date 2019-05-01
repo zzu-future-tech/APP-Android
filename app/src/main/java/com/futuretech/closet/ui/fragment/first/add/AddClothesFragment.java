@@ -25,8 +25,11 @@ import com.futuretech.closet.R;
 import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.utils.PhotoUtils;
 import com.futuretech.closet.utils.ToastUtils;
+import com.lzt.flowviews.view.FlowView;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +60,8 @@ public class AddClothesFragment extends BaseBackFragment {
     private static final int OUTPUT_X = 480;
     private static final int OUTPUT_Y = 480;
 
+    private static String[] attribute = new String[]{"全选","工作", "休闲", "运动", "其他"};
+    private FlowView fv_attribute;
 
     public static AddClothesFragment newInstance(String name) {
 
@@ -74,6 +79,7 @@ public class AddClothesFragment extends BaseBackFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.clothes_add, container, false);
         initView(view);
+        initFlowView(view);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -236,5 +242,17 @@ public class AddClothesFragment extends BaseBackFragment {
     public static boolean hasSdcard() {
         String state = Environment.getExternalStorageState();
         return state.equals(Environment.MEDIA_MOUNTED);
+    }
+
+
+    public  void initFlowView(View view){
+        fv_attribute = view.findViewById(R.id.fv_style0);
+
+        List list = new ArrayList();
+        fv_attribute.setAttr(R.color.color4dBlack,R.drawable.shape_rectangle_corner4_gray_solid)
+                .setSelectedAttr(R.color.colorWhite, R.drawable.shape_rectangle_corner4_green_solid)
+                .setButtonAttr(R.color.colorWhite,R.drawable.shape_rectangle_corner4_blue_solid)
+                .addViewMutileAll(attribute, R.layout.textview_flow, list, 5, true);
+
     }
 }

@@ -48,4 +48,11 @@
         <item name="overlapAnchor">false</item> <!--把该属性改为false即可使menu位置位于toolbar之下-->
     </style>
 
+    <style name="AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="android:layout_margin">6dp</item>
+        <item name="contentPadding">6dp</item>
+        <item name="cardCornerRadius">6dp</item>
+        <item name="cardElevation">3dp</item>
+    </style>
+
 </resources>
