@@ -7,13 +7,12 @@ import android.content.ContentValues;
  */
 public class ClothesInformationPack {
     private ContentValues values;
-    public ClothesInformationPack(int dressid, String style, String color, String thickness, String photo, String attribute, String userid){
+    public ClothesInformationPack(int dressid, String style, String color, String thickness, String attribute, String userid){
         values = new ContentValues();
         values.put("dressid",dressid);
         values.put("style",style);
         values.put("color",color);
         values.put("thickness",thickness);
-        values.put("photo",photo);
         values.put("attribute",attribute);
         values.put("userid",userid);
     }

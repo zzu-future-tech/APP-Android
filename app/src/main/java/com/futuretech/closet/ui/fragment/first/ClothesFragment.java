@@ -14,10 +14,13 @@ import android.widget.Toast;
 import com.futuretech.closet.R;
 import com.futuretech.closet.adapter.ClothesAdapterTwo;
 import com.futuretech.closet.base.BaseBackFragment;
-import com.futuretech.closet.model.ClothesTwo;
+
+import com.futuretech.closet.db.DataBase;
+import com.futuretech.closet.model.Clothes;
 import com.futuretech.closet.ui.fragment.first.add.AddClothesFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ClothesFragment extends BaseBackFragment {
@@ -28,7 +31,6 @@ public class ClothesFragment extends BaseBackFragment {
     private static String className;
     private FloatingActionButton addBtn;
 
-    private ArrayList<ClothesTwo> words = new ArrayList<>();
 
     public static ClothesFragment newInstance(String name) {
 
@@ -72,18 +74,23 @@ public class ClothesFragment extends BaseBackFragment {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
 
-        for(int i=0;i<20;i++){
-            words.add(new ClothesTwo("RUA!"+i));
+
+        List<Clothes> list=null;
+        try {
+            DataBase db = new DataBase("clothes",getContext());
+            list = db.queryClothesByStyle(className);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        adapter = new ClothesAdapterTwo(getActivity(), words);
+        adapter = new ClothesAdapterTwo(getActivity(), list);
 
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String className = adapter.getItem(position).getName();
+                //String className = adapter.getItem(position).getName();
                 start(ClothesInfoFragment.newInstance(className));
                 //Toast.makeText(getActivity(), "点击了"+adapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
             }

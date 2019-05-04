@@ -13,16 +13,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.futuretech.closet.R;
-import com.futuretech.closet.model.ClothesOne;
+import com.futuretech.closet.model.ClothesClass;
+
 
 import java.util.List;
 import java.util.Objects;
 
-public class ClothesAdapterOne extends ArrayAdapter<ClothesOne> {
+public class ClothesAdapterOne extends ArrayAdapter<ClothesClass> {
 
 
 
-    public ClothesAdapterOne(@NonNull Context context, @NonNull List<ClothesOne> objects) {
+    public ClothesAdapterOne(@NonNull Context context, @NonNull List<ClothesClass> objects) {
         super(context, 0, objects);
     }
 
@@ -36,7 +37,7 @@ public class ClothesAdapterOne extends ArrayAdapter<ClothesOne> {
                     R.layout.listview_clothes_adapter_one, parent, false);
         }
 
-        ClothesOne currentItem = getItem(position);
+        ClothesClass currentItem = getItem(position);
         //设置图片和文字
         ImageView imageView=listItemView.findViewById(R.id.imageView);
         imageView.setImageDrawable(this.getContext().getResources().getDrawable(Objects.requireNonNull(currentItem).getImageSrc()));

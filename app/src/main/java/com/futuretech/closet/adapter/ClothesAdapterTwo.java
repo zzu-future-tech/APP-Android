@@ -10,13 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.futuretech.closet.R;
-import com.futuretech.closet.model.ClothesTwo;
+import com.futuretech.closet.model.Clothes;
 
 import java.util.List;
 import java.util.Objects;
 
-public class ClothesAdapterTwo extends ArrayAdapter<ClothesTwo> {
-    public ClothesAdapterTwo(@NonNull Context context, @NonNull List<ClothesTwo> objects) {
+public class ClothesAdapterTwo extends ArrayAdapter<Clothes> {
+    public ClothesAdapterTwo(@NonNull Context context, @NonNull List<Clothes> objects) {
         super(context, 0, objects);
     }
 
@@ -29,12 +29,6 @@ public class ClothesAdapterTwo extends ArrayAdapter<ClothesTwo> {
             listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.listview_clothes_adapter_clothes, parent, false);
         }
-
-        ClothesTwo currentItem = getItem(position);
-        TextView textView = listItemView.findViewById(R.id.textView);
-        textView.setText(Objects.requireNonNull(currentItem).getName());
-
-
 
         return listItemView;
 

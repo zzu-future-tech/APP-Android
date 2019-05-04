@@ -5,6 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.futuretech.closet.model.Clothes;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Create by xu on 2019/4/20
  * 删除被注释的代码后阅读体验更佳，为日后扩充和测试方法 作者并未删除被注释的代码
@@ -100,6 +105,77 @@ public class DataBase {
             throw new Exception("查询失败", e);
         }
 
+    }
+
+    /*
+     *查询所有衣物id
+     */
+    public List<Integer> queryAllDressid() throws Exception {
+        List<Integer> list = new ArrayList<>();
+        try {
+            String sql = "select dressid from clothesInformation";
+            Cursor cursor = db.rawQuery(sql, null);
+
+            while (cursor.moveToNext()) {
+                list.add(cursor.getInt(cursor.getColumnIndex("dressid")));
+            }
+
+        } catch (Exception e) {
+            throw new Exception("查询失败", e);
+        }
+        return list;
+    }
+
+    /*
+     *查询所有衣物
+     */
+    public List<Clothes> queryAllClothes() throws Exception {
+        List<Clothes> list = new ArrayList<>();
+        try {
+            String sql = "select * from clothesInformation";
+            Cursor cursor = db.rawQuery(sql, null);
+
+            while (cursor.moveToNext()) {
+                Clothes clothes = new Clothes(
+                        cursor.getInt(cursor.getColumnIndex("dressid")),
+                        cursor.getString(cursor.getColumnIndex("style")),
+                        cursor.getString(cursor.getColumnIndex("color")),
+                        cursor.getString(cursor.getColumnIndex("thickness")),
+                        cursor.getString(cursor.getColumnIndex("attribute"))
+                );
+                list.add(clothes);
+            }
+
+        } catch (Exception e) {
+            throw new Exception("查询失败", e);
+        }
+        return list;
+    }
+
+    /*
+     *查询特定样式的衣物
+     */
+    public List<Clothes> queryClothesByStyle(String style) throws Exception {
+        List<Clothes> list = new ArrayList<>();
+        try {
+            String sql = "select * from clothesInformation where style=?";
+            Cursor cursor = db.rawQuery(sql,  new String[]{String.valueOf(style)});
+
+            while (cursor.moveToNext()) {
+                Clothes clothes = new Clothes(
+                        cursor.getInt(cursor.getColumnIndex("dressid")),
+                        cursor.getString(cursor.getColumnIndex("style")),
+                        cursor.getString(cursor.getColumnIndex("color")),
+                        cursor.getString(cursor.getColumnIndex("thickness")),
+                        cursor.getString(cursor.getColumnIndex("attribute"))
+                );
+                list.add(clothes);
+            }
+
+        } catch (Exception e) {
+            throw new Exception("查询失败", e);
+        }
+        return list;
     }
 
     public void close() {

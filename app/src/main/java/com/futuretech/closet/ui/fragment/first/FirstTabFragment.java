@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.futuretech.closet.R;
 import com.futuretech.closet.adapter.ClothesAdapterOne;
 import com.futuretech.closet.base.BaseMainFragment;
-import com.futuretech.closet.model.ClothesOne;
+import com.futuretech.closet.model.ClothesClass;
 import com.futuretech.closet.ui.fragment.MainFragment;
 
 import java.util.ArrayList;
@@ -60,9 +60,9 @@ public class FirstTabFragment extends BaseMainFragment {
                 R.drawable.clothes_xizhuang,R.drawable.clothes_dayi,R.drawable.clothes_fengyi,R.drawable.clothes_mianyi,R.drawable.clothes_maoyi,
                 R.drawable.clothes_dress,R.drawable.clothes_duanku,R.drawable.clothes_changku,R.drawable.clothes_skirt,R.drawable.clothes_niuzaiku};
 
-        final ArrayList<ClothesOne> words = new ArrayList<>();
+        final ArrayList<ClothesClass> words = new ArrayList<>();
         for(int i=0;i<14;i++) {
-            words.add(new ClothesOne(names[i], resImages[i]));
+            words.add(new ClothesClass(names[i], resImages[i]));
         }
 
 

@@ -339,7 +339,9 @@ public class AddClothesFragment extends BaseBackFragment {
         //场合
         List list = fv_attribute.getSelecteds();
         StringBuilder attStr= new StringBuilder();
-        for(int i=1;i<list.size();i++){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).toString().equals("0"))
+                continue;
             attStr.append(attribute[Integer.parseInt(list.get(i).toString())]);
             attStr.append("|");
         }
@@ -352,11 +354,11 @@ public class AddClothesFragment extends BaseBackFragment {
         String userid = share.getString("Email",null);
         Log.d(TAG, "userid: "+userid);
         //颜色
-        String colorStr = String.format("#%06X", 0xFFFFFF & color);
+        String colorStr = String.format("%06X", 0xFFFFFF & color);
         Log.d(TAG, "color: "+colorStr);
 
         //构建json
-        ClothesInformationPack clothes = new ClothesInformationPack(0,clothesClassName,colorStr,thicknessStr,"",attStr.toString(),userid);
+        ClothesInformationPack clothes = new ClothesInformationPack(0,clothesClassName,colorStr,thicknessStr,attStr.toString(),userid);
         JSONObject json = JsonUtils.clothes2Json(clothes.getValues());
         try {
             System.out.println(json.toString(1));
@@ -380,6 +382,8 @@ public class AddClothesFragment extends BaseBackFragment {
                         try {
                             DataBase db = new DataBase("clothes",getContext());
                             db.insertCloth(clothes.getValues());
+                            db.close();
+                            ToastUtils.showShort(getContext(),"添加成功");
                         } catch (Exception e) {
                             e.printStackTrace();
                             ToastUtils.showShort(getContext(),"添加失败");

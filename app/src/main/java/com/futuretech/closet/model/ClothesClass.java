@@ -1,6 +1,6 @@
 package com.futuretech.closet.model;
 
-public class ClothesOne {
+public class ClothesClass {
     private String name;
     private int imageSrc;
 
@@ -18,7 +18,7 @@ public class ClothesOne {
 
     public void setImageSrc(int imageSrc){this.imageSrc=imageSrc;}
 
-    public ClothesOne(String name,int imageSrc) {
+    public ClothesClass(String name,int imageSrc) {
         this.name = name;
         this.imageSrc=imageSrc;
     }
