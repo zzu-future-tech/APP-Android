@@ -36,8 +36,8 @@ public class ClothesAdapterTwo extends ArrayAdapter<Clothes> {
         //设置背景色
         Clothes currentItem = getItem(position);
         CardView cardView=listItemView.findViewById(R.id.cardView);
-        //int color = Color.parseColor("#"+currentItem.getColor());
-        //cardView.setCardBackgroundColor(color);
+        int color = Color.parseColor("#"+currentItem.getColor());
+        cardView.setCardBackgroundColor(color);
 
         return listItemView;
 
