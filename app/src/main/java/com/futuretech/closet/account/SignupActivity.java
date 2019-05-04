@@ -17,7 +17,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.futuretech.closet.R;
-import com.futuretech.closet.utils.StatusCode;
+import com.futuretech.closet.utils.JsonUtils;
 
 import java.io.IOException;
 
@@ -33,7 +33,7 @@ import okhttp3.Response;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
-    private static final String OK = "1";
+    private static final String SIGNOK = "1";
     @BindView(R.id.input_code)
     EditText _codeText;
     @BindView(R.id.toggle_psw)
@@ -261,10 +261,10 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                StatusCode statusCode = new StatusCode(response);
+                String resp = response.body().string();
                 Log.d(TAG, "doSignup1 网络请求返回码:" + response.code());
                 //Log.d(TAG, "doSignup1 网络请求返回:" + response.body().string());
-                if (OK.equals(statusCode.getStatus())) {
+                if (SIGNOK.equals(JsonUtils.getStatusCode(resp))) {
                     runOnUiThread(() -> {
                         onSendCodeSuccess();
                         progressDialog.dismiss();
@@ -310,10 +310,10 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                StatusCode statusCode = new StatusCode(response);
+                String resp = response.body().string();
                 Log.d(TAG, "doSignup2 网络请求返回码:" + response.code());
                 //Log.d(TAG, "doSignup2 网络请求返回:" + response.body().string());
-                if (OK.equals(statusCode.getStatus())) {
+                if (SIGNOK.equals(JsonUtils.getStatusCode(resp))) {
                     runOnUiThread(() -> {
                         onSignupSuccess();
                         progressDialog.dismiss();

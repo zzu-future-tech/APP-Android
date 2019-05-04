@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.futuretech.closet.R;
-import com.futuretech.closet.utils.StatusCode;
+import com.futuretech.closet.utils.JsonUtils;
 
 import java.io.IOException;
 
@@ -29,7 +29,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
-    private static final String OK = "1";
+    private static final String LOGINOK = "1";
     private static final int REQUEST_SIGNUP = 0;
 
     private SharedPreferences sharedPreferences;
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        sharedPreferences = this.getSharedPreferences("Login", Context.MODE_PRIVATE);
+        //sharedPreferences = this.getSharedPreferences("Login", Context.MODE_PRIVATE);
 
         // 获取sharedpreferences对象
         SharedPreferences share = getSharedPreferences("Login",
@@ -188,10 +188,10 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                StatusCode statusCode = new StatusCode(response);
+                String resp = response.body().string();
                 Log.d(TAG, "doLogin 网络请求返回码:" + response.code());
                 //Log.d(TAG, "doLogin 网络请求返回:" + response.body().string());
-                if ("1".equals(statusCode.getStatus())) {
+                if (LOGINOK.equals(JsonUtils.getStatusCode(resp))) {
                     runOnUiThread(() -> {
                         onLoginSuccess();
                         progressDialog.dismiss();

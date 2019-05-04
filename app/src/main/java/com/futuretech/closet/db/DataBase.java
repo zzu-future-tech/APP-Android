@@ -1,4 +1,5 @@
 package com.futuretech.closet.db;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,88 +14,95 @@ import android.database.sqlite.SQLiteDatabase;
  * 需在try catch中使用该类及方法
  */
 public class DataBase {
-     public SQLiteDatabase db;
-     /*
-      *注册时初始化构造方法即可创建数据库 目前只创建用户信息表user和衣物信息表clothesInformation
-       * name为用户名 为该用户创建名为 ‘用户名’的数据库
-       * 构造方法中values应为注册用户的基本信息 基本形式为 values.put("属性名","值"）；ContentValues values,
-      */
-     public DataBase(String name, Context context) throws Exception{
-         try {
-             DataBaseHelper dabhelper = new DataBaseHelper(context, name);
-             db = dabhelper.getWritableDatabase();
+    public SQLiteDatabase db;
+
+    /*
+     *注册时初始化构造方法即可创建数据库 目前只创建用户信息表user和衣物信息表clothesInformation
+     * name为用户名 为该用户创建名为 ‘用户名’的数据库
+     * 构造方法中values应为注册用户的基本信息 基本形式为 values.put("属性名","值"）；ContentValues values,
+     */
+    public DataBase(String name, Context context) throws Exception {
+        try {
+            DataBaseHelper dabhelper = new DataBaseHelper(context, name);
+            db = dabhelper.getWritableDatabase();
             // db.insert("user",null,values);
-         }catch(Exception e){
-             throw new Exception("创建数据库失败",e);
-         }
-     }
-     /*
-      * 添加衣服时使用时 向衣物信息表中插入数据
-      */
-     public  void  insertCloth(ContentValues values) throws  Exception{
-         try {
+        } catch (Exception e) {
+            throw new Exception("创建数据库失败", e);
+        }
+    }
+
+    /*
+     * 添加衣服时使用时 向衣物信息表中插入数据
+     */
+    public void insertCloth(ContentValues values) throws Exception {
+        try {
             db.execSQL("insert into clothesInformation (dressid,style,color,thickness,photo,attribute,userid,gmt_create) values(?,?,?,?,?,?,?,datetime('now','localtime'))", new Object[]{Integer.parseInt(values.get("dressid").toString()),
-                     values.get("style"),values.get("color"), values.get("thickness"),values.get("photo"),values.get("attribute"),values.get("userid")});
+                    values.get("style"), values.get("color"), values.get("thickness"), values.get("photo"), values.get("attribute"), values.get("userid")});
             //  db.insert("clothesInformation",null,values);
-         }catch(Exception e){
-             throw new Exception("插入失败",e);
-         }
-         }
-         /*
-           * 更新操作执行时需重新输入相关衣服的所有信息
-          */
-     public void update(ContentValues values) throws Exception{
-         try {
-             //String sql = "update user set name= ? where id= ?";
-             //db.execSQL(sql, new Object[]{name, id});
+        } catch (Exception e) {
+            throw new Exception("插入失败", e);
+        }
+    }
+
+    /*
+     * 更新操作执行时需重新输入相关衣服的所有信息
+     */
+    public void update(ContentValues values) throws Exception {
+        try {
+            //String sql = "update user set name= ? where id= ?";
+            //db.execSQL(sql, new Object[]{name, id});
             // int id= Integer.parseInt(values.get("dressid").toString());
-          //   db.update("clothesInformation",values,"dressid=",new String[]{values.get("dress").toString()});
-             db.execSQL("update clothesInformation set dressid=?,style=?, color=?,thickness=?,photo=?,attribute=?,userid=?,gmt_modified=datetime('now','localtime') where dressid=? ", new Object[]{Integer.parseInt(values.get("dressid").toString()),
-                     values.get("style"),values.get("color"), values.get("thickness"),values.get("photo"),values.get("attribute"),values.get("userid"),values.get("dressid")});
-         }catch(Exception e){
-             throw new Exception("更新失败",e);
-         }
-     }
-     /*
-         * 根据具体衣物id删除clothesInformation 中的相关数据
-      */
-     public void deleteClothesByDressid(int dressid) throws Exception{
+            //   db.update("clothesInformation",values,"dressid=",new String[]{values.get("dress").toString()});
+            db.execSQL("update clothesInformation set dressid=?,style=?, color=?,thickness=?,photo=?,attribute=?,userid=?,gmt_modified=datetime('now','localtime') where dressid=? ", new Object[]{Integer.parseInt(values.get("dressid").toString()),
+                    values.get("style"), values.get("color"), values.get("thickness"), values.get("photo"), values.get("attribute"), values.get("userid"), values.get("dressid")});
+        } catch (Exception e) {
+            throw new Exception("更新失败", e);
+        }
+    }
+
+    /*
+     * 根据具体衣物id删除clothesInformation 中的相关数据
+     */
+    public void deleteClothesByDressid(int dressid) throws Exception {
         //  String sql="delete from ? where id=?";
         // db.execSQL(sql, new Object[]{tablename,String.valueOf(id)});
         // String.format("delete from %s where id=  %d",tablename,id)
-         try {
-             db.execSQL(String.format("delete from  clothesInformation where dressid=  %d", dressid));
-         }catch(Exception e){
-             throw new Exception("删除失败",e);
-         }
-         }
-         /*
-         *根据衣物地址删除id
-          */
-         public void deleteClothesByAttribute(String  attribute) throws Exception{
-             //  String sql="delete from ? where id=?";
-             // db.execSQL(sql, new Object[]{tablename,String.valueOf(id)});
-             // String.format("delete from %s where id=  %d",tablename,id)
-             try {
-                 db.execSQL(String.format("delete from  clothesInformation where attrubute=  %s", attribute));
-             }catch(Exception e){
-                 throw new Exception("删除失败",e);
-             }
-         }
-         /*
-             *显示详细信息时可根据衣服编号查询相关信息
-          */
-     public Cursor queryByDressid( int dressid)throws  Exception{
-         try {
-             String sql = "select * from clothesInformation where dressid=?";
-             Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(dressid)});
-             return cursor;
-         }catch(Exception e){
-             throw new Exception("查询失败",e);
-         }
+        try {
+            db.execSQL(String.format("delete from  clothesInformation where dressid=  %d", dressid));
+        } catch (Exception e) {
+            throw new Exception("删除失败", e);
+        }
+    }
 
-     }
-     public void close(){
-         db.close();
-     }
+    /*
+     *根据衣物地址删除id
+     */
+    public void deleteClothesByAttribute(String attribute) throws Exception {
+        //  String sql="delete from ? where id=?";
+        // db.execSQL(sql, new Object[]{tablename,String.valueOf(id)});
+        // String.format("delete from %s where id=  %d",tablename,id)
+        try {
+            db.execSQL(String.format("delete from  clothesInformation where attrubute=  %s", attribute));
+        } catch (Exception e) {
+            throw new Exception("删除失败", e);
+        }
+    }
+
+    /*
+     *显示详细信息时可根据衣服编号查询相关信息
+     */
+    public Cursor queryByDressid(int dressid) throws Exception {
+        try {
+            String sql = "select * from clothesInformation where dressid=?";
+            Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(dressid)});
+            return cursor;
+        } catch (Exception e) {
+            throw new Exception("查询失败", e);
+        }
+
+    }
+
+    public void close() {
+        db.close();
+    }
 }

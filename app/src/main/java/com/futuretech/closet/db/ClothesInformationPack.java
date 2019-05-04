@@ -17,6 +17,10 @@ public class ClothesInformationPack {
         values.put("attribute",attribute);
         values.put("userid",userid);
     }
+    public void changeDressid(int dressid){
+        values.remove("dressid");
+        values.put("dressid",dressid);
+    }
     public ContentValues getValues(){
         return  values;
     }
