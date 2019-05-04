@@ -99,14 +99,6 @@ public class AddClothesFragment extends BaseBackFragment {
         initToolbarNav(toolbar);
 
         photo = view.findViewById(R.id.photo);
-//        photo.setOnColorSelectedListener(new ColorImageView.OnColorSelectedListener() {
-//            @Override
-//            public void onColorSelectedL(int color) {
-//                colorDisplay.setCardBackgroundColor(color);
-//                Log.d(TAG, "color: "+color);
-//            }
-//        });
-
 
         photo.setOnTouchListener(new View.OnTouchListener(){
             @Override
