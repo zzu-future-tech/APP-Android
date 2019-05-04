@@ -4,6 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,9 +16,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -39,14 +44,17 @@ import butterknife.Unbinder;
 public class AddClothesFragment extends BaseBackFragment {
     private static final String TAG = "PhotoImageFragment";
     private static String clothesClassName;
-    @BindView(R.id.photo)
+    //@BindView(R.id.photo)
     ImageView photo;
     @BindView(R.id.takePic)
     Button takePic;
     @BindView(R.id.gallery)
     Button gallery;
+    @BindView(R.id.color)
+    CardView colorDisplay;
     Unbinder unbinder;
     private Toolbar toolbar;
+    private Bitmap bitmap;
 
     private static final int CODE_GALLERY_REQUEST = 0xa0;
     private static final int CODE_CAMERA_REQUEST = 0xa1;
@@ -57,8 +65,8 @@ public class AddClothesFragment extends BaseBackFragment {
     private File fileCropUri = new File(Environment.getExternalStorageDirectory() + "/Pictures/closet/","crop_photo.jpg");
     private Uri imageUri;
     private Uri cropImageUri;
-    private static final int OUTPUT_X = 480;
-    private static final int OUTPUT_Y = 480;
+    private static final int OUTPUT_X = 800;
+    private static final int OUTPUT_Y = 800;
 
     private static String[] attribute = new String[]{"全选","工作", "休闲", "运动", "其他"};
     private FlowView fv_attribute;
@@ -89,6 +97,50 @@ public class AddClothesFragment extends BaseBackFragment {
         toolbar.setTitle("添加新"+clothesClassName);
         //添加工具栏返回箭头
         initToolbarNav(toolbar);
+
+        photo = view.findViewById(R.id.photo);
+//        photo.setOnColorSelectedListener(new ColorImageView.OnColorSelectedListener() {
+//            @Override
+//            public void onColorSelectedL(int color) {
+//                colorDisplay.setCardBackgroundColor(color);
+//                Log.d(TAG, "color: "+color);
+//            }
+//        });
+
+
+        photo.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                int pixel;
+                bitmap = ((BitmapDrawable)photo.getDrawable()).getBitmap();
+//                int x = (int)event.getX();
+//                int y = (int)event.getY();
+                Matrix inverse = new Matrix();
+                photo.getImageMatrix().invert(inverse);
+                float[] touchPoint = new float[] {event.getX(), event.getY()};
+                inverse.mapPoints(touchPoint);
+                int x = Integer.valueOf((int)touchPoint[0]);
+                int y = Integer.valueOf((int)touchPoint[1]);
+                //Log.d(TAG, "x:"+x);
+                //Log.d(TAG, "y:"+y);
+                //Log.d(TAG, "photoWidth: "+bitmap.getWidth());
+                //Log.d(TAG, "photoHeight: "+bitmap.getHeight());
+                if (x < 0 || x > bitmap.getWidth() || y < 0 || y > bitmap.getHeight()) {
+                    pixel = Color.WHITE;
+                }else {
+                    pixel = bitmap.getPixel(x, y);
+                }
+                //then do what you want with the pixel data, e.g
+                int redValue = Color.red(pixel);
+                int blueValue = Color.blue(pixel);
+                int greenValue = Color.green(pixel);
+                int color = Color.rgb(redValue,greenValue,blueValue);
+                Log.d(TAG, "selectColor:"+color);
+                colorDisplay.setCardBackgroundColor(color);
+                return false;
+            }
+        });
+
     }
 
     @Override
