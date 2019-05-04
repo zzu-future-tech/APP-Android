@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import com.futuretech.closet.ui.fragment.first.add.AddClothesFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.constraint.Constraints.TAG;
 
 
 public class ClothesFragment extends BaseBackFragment {
@@ -73,12 +76,15 @@ public class ClothesFragment extends BaseBackFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
+        setView();
+    }
 
-
+    private void setView(){
         List<Clothes> list=null;
         try {
             DataBase db = new DataBase("clothes",getContext());
             list = db.queryClothesByStyle(className);
+            db.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,17 +96,17 @@ public class ClothesFragment extends BaseBackFragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //String className = adapter.getItem(position).getName();
-                start(ClothesInfoFragment.newInstance(className));
+                int dressid = adapter.getItem(position).getDressid();
+                start(ClothesInfoFragment.newInstance(className,dressid));
                 //Toast.makeText(getActivity(), "点击了"+adapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
-
-
-
+    @Override
+    public void onSupportVisible(){
+        super.onSupportVisible();
+        setView();
+    }
 
 }

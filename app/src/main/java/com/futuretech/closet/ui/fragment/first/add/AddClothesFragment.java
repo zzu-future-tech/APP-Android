@@ -384,6 +384,7 @@ public class AddClothesFragment extends BaseBackFragment {
                             db.insertCloth(clothes.getValues());
                             db.close();
                             ToastUtils.showShort(getContext(),"添加成功");
+                            pop();
                         } catch (Exception e) {
                             e.printStackTrace();
                             ToastUtils.showShort(getContext(),"添加失败");

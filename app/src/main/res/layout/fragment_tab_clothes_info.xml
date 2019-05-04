@@ -41,6 +41,14 @@
             android:paddingTop="50px"
             android:paddingLeft="50dp"/>
 
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="75px"
+            android:paddingTop="50px"
+            android:paddingLeft="50dp"/>
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
