@@ -377,12 +377,15 @@ public class AddClothesFragment extends BaseBackFragment {
                         String resp = (String) msg.obj;
                         //Log.d(TAG, "AddClothesResp: "+resp);
                         //接收response处理
-                        clothes.changeDressid(Integer.parseInt(JsonUtils.getStatusCode(resp)));
+                        String dressid = JsonUtils.getStatusCode(resp);
+                        clothes.changeDressid(Integer.parseInt(dressid));
                         //操作数据库
                         try {
                             DataBase db = new DataBase("clothes",getContext());
                             db.insertCloth(clothes.getValues());
                             db.close();
+                            //修改图片名
+                            modifyPhotoName(Integer.parseInt(dressid));
                             ToastUtils.showShort(getContext(),"添加成功");
                             pop();
                         } catch (Exception e) {
@@ -395,11 +398,9 @@ public class AddClothesFragment extends BaseBackFragment {
                 }
             }
         };
-
-
     }
 
-    public void postJson(String json) {
+    private void postJson(String json) {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         OkHttpClient mOkHttpClient = new OkHttpClient();
         RequestBody body = RequestBody.create(JSON, json);
@@ -428,5 +429,13 @@ public class AddClothesFragment extends BaseBackFragment {
                 handler.sendMessage(message);
             }
         });
+    }
+
+    //修改照片文件名
+    private void modifyPhotoName(int dressid){
+        String filepath= Environment.getExternalStorageDirectory() + "/Pictures/Closet/";
+        File from = new File(filepath,"crop_photo.jpg");
+        File to = new File(filepath,dressid+".jpg");
+        from.renameTo(to);
     }
 }
