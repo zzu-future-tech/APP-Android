@@ -33,7 +33,8 @@
             android:focusable="true"
             app:elevation="12dp"
             app:pressedTranslationZ="12dp"
-            app:srcCompat="@drawable/ic_add_white_24dp" />
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            app:backgroundTint="@color/colorAccent"/>
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
