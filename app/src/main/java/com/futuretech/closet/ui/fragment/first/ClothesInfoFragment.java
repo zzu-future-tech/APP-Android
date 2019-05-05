@@ -2,6 +2,7 @@ package com.futuretech.closet.ui.fragment.first;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -21,11 +22,13 @@ import com.futuretech.closet.R;
 import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.db.DataBase;
 import com.futuretech.closet.utils.JsonUtils;
+import com.futuretech.closet.utils.PhotoUtils;
 import com.futuretech.closet.utils.ToastUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -134,6 +137,8 @@ public class ClothesInfoFragment extends BaseBackFragment {
                             DataBase db = new DataBase("clothes",getContext());
                             db.deleteClothesByDressid(dressid);
                             db.close();
+                            //删除本地图片
+                            PhotoUtils.deletePhoto(dressid);
 
                             //删远程
                             if(JsonUtils.getStatusCode(resp).equals("1")){

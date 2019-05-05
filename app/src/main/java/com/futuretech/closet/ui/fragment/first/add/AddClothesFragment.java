@@ -385,7 +385,8 @@ public class AddClothesFragment extends BaseBackFragment {
                             db.insertCloth(clothes.getValues());
                             db.close();
                             //修改图片名
-                            modifyPhotoName(Integer.parseInt(dressid));
+
+                            PhotoUtils.modifyPhotoName(Integer.parseInt(dressid));
                             ToastUtils.showShort(getContext(),"添加成功");
                             pop();
                         } catch (Exception e) {
@@ -431,11 +432,4 @@ public class AddClothesFragment extends BaseBackFragment {
         });
     }
 
-    //修改照片文件名
-    private void modifyPhotoName(int dressid){
-        String filepath= Environment.getExternalStorageDirectory() + "/Pictures/Closet/";
-        File from = new File(filepath,"crop_photo.jpg");
-        File to = new File(filepath,dressid+".jpg");
-        from.renameTo(to);
-    }
 }

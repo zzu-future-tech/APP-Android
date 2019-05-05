@@ -13,6 +13,8 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.File;
+
 import me.yokeyword.fragmentation.SupportFragment;
 
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
@@ -213,6 +215,27 @@ public class PhotoUtils {
      */
     private static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * 根据衣物id删除图片
+     * @param dressid 衣物id
+     */
+    public static void deletePhoto(int dressid){
+        String filepath= Environment.getExternalStorageDirectory() + "/Pictures/Closet/";
+        File from = new File(filepath,dressid+".jpg");
+        from.delete();
+    }
+
+    /**
+     * 修改图片名
+     * @param dressid 衣物id
+     */
+    public static void modifyPhotoName(int dressid){
+        String filepath= Environment.getExternalStorageDirectory() + "/Pictures/Closet/";
+        File from = new File(filepath,"crop_photo.jpg");
+        File to = new File(filepath,dressid+".jpg");
+        from.renameTo(to);
     }
 
 }
