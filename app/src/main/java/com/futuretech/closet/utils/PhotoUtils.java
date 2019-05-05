@@ -228,6 +228,15 @@ public class PhotoUtils {
     }
 
     /**
+     * 删除原图片
+     */
+    public static void deleteOriginPhoto(){
+        String filepath= Environment.getExternalStorageDirectory() + "/Pictures/Closet/";
+        File from = new File(filepath,"photo.jpg");
+        from.delete();
+    }
+
+    /**
      * 修改图片名
      * @param dressid 衣物id
      */

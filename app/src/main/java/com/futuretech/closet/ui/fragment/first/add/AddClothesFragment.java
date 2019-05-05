@@ -303,6 +303,8 @@ public class AddClothesFragment extends BaseBackFragment {
                 Bitmap bitmap = PhotoUtils.getBitmapFromUri(cropImageUri, getActivity());
                 if (bitmap != null) {
                     showImages(bitmap);
+                    //删除旧的原图
+                    PhotoUtils.deleteOriginPhoto();
                 }
                 break;
             default:
