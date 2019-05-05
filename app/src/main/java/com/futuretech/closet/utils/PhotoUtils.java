@@ -247,4 +247,19 @@ public class PhotoUtils {
         from.renameTo(to);
     }
 
+    /**
+     * 根据dressid获取图片Uri
+     * @param dressid 衣物id
+     */
+    public static Uri getPhotoUri(int dressid){
+        String filepath= Environment.getExternalStorageDirectory() + "/Pictures/Closet/";
+        File from = new File(filepath,dressid+".jpg");
+        if(from.exists()){
+            Uri uri = Uri.fromFile(from);
+            return uri;
+        }else{
+            return null;
+        }
+    }
+
 }
