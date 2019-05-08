@@ -39,6 +39,9 @@ public class ClothesAdapterTwo extends ArrayAdapter<Clothes> {
                     R.layout.listview_clothes_adapter_clothes, parent, false);
         }
 
+
+
+
         //设置背景色
         Clothes currentItem = getItem(position);
         CardView cardView=listItemView.findViewById(R.id.cardView);

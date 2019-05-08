@@ -96,11 +96,19 @@ public class DataBase {
     /*
      *显示详细信息时可根据衣服编号查询相关信息
      */
-    public Cursor queryByDressid(int dressid) throws Exception {
+    public Clothes queryByDressid(int dressid) throws Exception {
         try {
             String sql = "select * from clothesInformation where dressid=?";
             Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(dressid)});
-            return cursor;
+            cursor.moveToNext();
+            Clothes clothes = new Clothes(
+                    cursor.getInt(cursor.getColumnIndex("dressid")),
+                    cursor.getString(cursor.getColumnIndex("style")),
+                    cursor.getString(cursor.getColumnIndex("color")),
+                    cursor.getString(cursor.getColumnIndex("thickness")),
+                    cursor.getString(cursor.getColumnIndex("attribute"))
+            );
+            return clothes;
         } catch (Exception e) {
             throw new Exception("查询失败", e);
         }

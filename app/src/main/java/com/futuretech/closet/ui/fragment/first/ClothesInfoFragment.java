@@ -1,6 +1,7 @@
 package com.futuretech.closet.ui.fragment.first;
 
 import android.app.ActionBar;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 import com.futuretech.closet.R;
 import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.db.DataBase;
+import com.futuretech.closet.model.Clothes;
+import com.futuretech.closet.ui.fragment.first.update.UpdateClothesFragment;
 import com.futuretech.closet.utils.JsonUtils;
 import com.futuretech.closet.utils.PhotoUtils;
 import com.futuretech.closet.utils.ToastUtils;
@@ -30,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -45,6 +49,7 @@ public class ClothesInfoFragment extends BaseBackFragment {
     private Toolbar toolbar;
     private static String className;
     private static int dressid;
+    private View view;
 
     private Handler handler;
 
@@ -62,23 +67,9 @@ public class ClothesInfoFragment extends BaseBackFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tab_clothes_info, container, false);
+         view = inflater.inflate(R.layout.fragment_tab_clothes_info, container, false);
         initView(view);
-
-        ImageView iv= view.findViewById(R.id.imageView);
-        iv.setImageDrawable(getResources().getDrawable(R.drawable.mea));
-
-        TextView t1= view.findViewById(R.id.text1);
-        t1.setText("颜色:"+className+"'s color");
-
-        TextView t2= view.findViewById(R.id.text2);
-        t2.setText("场合:"+className+"'s occation");
-
-        TextView t3= view.findViewById(R.id.text3);
-        t2.setText("ID:"+ dressid);
-
-
-
+        setView();
         return view;
     }
 
@@ -106,7 +97,8 @@ public class ClothesInfoFragment extends BaseBackFragment {
                         deleteClothes();
                         return true;
                     case R.id.edit:
-                        Toast.makeText(getActivity(), "你点击了修改", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "你点击了修改", Toast.LENGTH_SHORT).show();
+                        start(UpdateClothesFragment.newInstance(dressid));
                         return true;
                 }return false;
             }
@@ -191,4 +183,41 @@ public class ClothesInfoFragment extends BaseBackFragment {
             }
         });
     }
+
+
+    private void setView(){
+        Clothes clothes=null;
+        try {
+            DataBase db = new DataBase("clothes",getContext());
+            clothes= db.queryByDressid(dressid);
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ImageView iv= view.findViewById(R.id.imageView);
+        Uri uri = PhotoUtils.getPhotoUri(dressid);
+        if(uri!=null){
+            iv.setImageURI(uri);
+        }
+
+        TextView t1= view.findViewById(R.id.text1);
+        t1.setText("ID:"+dressid);
+
+        TextView t2= view.findViewById(R.id.text2);
+        t2.setText("场合:"+clothes.getAttribute());
+
+        TextView t3= view.findViewById(R.id.text3);
+        t3.setText("颜色:"+clothes.getColor());
+
+        TextView t4= view.findViewById(R.id.text4);
+        t4.setText("厚度:"+ clothes.getThickness());
+    }
+
+    @Override
+    public void onSupportVisible(){
+        super.onSupportVisible();
+        setView();
+    }
+
 }
