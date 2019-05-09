@@ -46,6 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class UpdateClothesFragment extends BaseBackFragment {
     private static final String TAG = "PhotoImageFragment";
@@ -83,15 +91,15 @@ public class UpdateClothesFragment extends BaseBackFragment {
     private static final int CODE_RESULT_REQUEST = 0xa2;
     private static final int CAMERA_PERMISSIONS_REQUEST_CODE = 0x03;
     private static final int STORAGE_PERMISSIONS_REQUEST_CODE = 0x04;
-    private File fileUri = new File(Environment.getExternalStorageDirectory() + "/Pictures/closet/" ,"photo.jpg");
-    private File fileCropUri = new File(Environment.getExternalStorageDirectory() + "/Pictures/closet/","crop_photo.jpg");
+    private File fileUri = new File(Environment.getExternalStorageDirectory() + "/Pictures/closet/", "photo.jpg");
+    private File fileCropUri = new File(Environment.getExternalStorageDirectory() + "/Pictures/closet/", "crop_photo.jpg");
     private Uri imageUri;
     private Uri cropImageUri;
     private static final int OUTPUT_X = 800;
     private static final int OUTPUT_Y = 800;
 
 
-    private static String[] attribute = new String[]{"全选","工作", "休闲", "运动", "其他"};
+    private static String[] attribute = new String[]{"全选", "工作", "休闲", "运动", "其他"};
     private FlowView fv_attribute;
 
     private Handler handler;
@@ -102,7 +110,7 @@ public class UpdateClothesFragment extends BaseBackFragment {
         UpdateClothesFragment fragment = new UpdateClothesFragment();
         fragment.setArguments(args);
 
-        dressid=id;
+        dressid = id;
         return fragment;
     }
 
@@ -119,39 +127,39 @@ public class UpdateClothesFragment extends BaseBackFragment {
 
     private void initView(View view) {
         toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle("更新"+dressid);
+        toolbar.setTitle("更新" + dressid);
         //添加工具栏返回箭头
         initToolbarNav(toolbar);
 
         //获取图片颜色
-        photo.setOnTouchListener(new View.OnTouchListener(){
+        photo.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event){
+            public boolean onTouch(View v, MotionEvent event) {
                 int pixel;
-                Bitmap bitmap = ((BitmapDrawable)photo.getDrawable()).getBitmap();
+                Bitmap bitmap = ((BitmapDrawable) photo.getDrawable()).getBitmap();
 //                int x = (int)event.getX();
 //                int y = (int)event.getY();
                 Matrix inverse = new Matrix();
                 photo.getImageMatrix().invert(inverse);
-                float[] touchPoint = new float[] {event.getX(), event.getY()};
+                float[] touchPoint = new float[]{event.getX(), event.getY()};
                 inverse.mapPoints(touchPoint);
-                int x = Integer.valueOf((int)touchPoint[0]);
-                int y = Integer.valueOf((int)touchPoint[1]);
+                int x = Integer.valueOf((int) touchPoint[0]);
+                int y = Integer.valueOf((int) touchPoint[1]);
                 //Log.d(TAG, "x:"+x);
                 //Log.d(TAG, "y:"+y);
                 //Log.d(TAG, "photoWidth: "+bitmap.getWidth());
                 //Log.d(TAG, "photoHeight: "+bitmap.getHeight());
                 if (x < 0 || x > bitmap.getWidth() || y < 0 || y > bitmap.getHeight()) {
                     pixel = Color.WHITE;
-                }else {
+                } else {
                     pixel = bitmap.getPixel(x, y);
                 }
                 //then do what you want with the pixel data, e.g
                 int redValue = Color.red(pixel);
                 int blueValue = Color.blue(pixel);
                 int greenValue = Color.green(pixel);
-                color = Color.rgb(redValue,greenValue,blueValue);
-                Log.d(TAG, "selectColor:"+color);
+                color = Color.rgb(redValue, greenValue, blueValue);
+                Log.d(TAG, "selectColor:" + color);
                 colorDisplay.setCardBackgroundColor(color);
                 return false;
             }
@@ -186,7 +194,7 @@ public class UpdateClothesFragment extends BaseBackFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        if(!fileUri.getParentFile().exists())
+        if (!fileUri.getParentFile().exists())
             fileUri.getParentFile().mkdirs();
     }
 
@@ -311,6 +319,7 @@ public class UpdateClothesFragment extends BaseBackFragment {
     private void showImages(Bitmap bitmap) {
         photo.setImageBitmap(bitmap);
     }
+
     /**
      * 检查设备是否存在SDCard的工具方法
      */
@@ -320,80 +329,133 @@ public class UpdateClothesFragment extends BaseBackFragment {
     }
 
     //标签初始化
-    public void initFlowView(View view){
+    public void initFlowView(View view) {
         fv_attribute = view.findViewById(R.id.fv_style0);
 
         List list = new ArrayList();
-        fv_attribute.setAttr(R.color.color4dBlack,R.drawable.shape_rectangle_corner4_gray_solid)
+        fv_attribute.setAttr(R.color.color4dBlack, R.drawable.shape_rectangle_corner4_gray_solid)
                 .setSelectedAttr(R.color.colorWhite, R.drawable.shape_rectangle_corner4_green_solid)
-                .setButtonAttr(R.color.colorWhite,R.drawable.shape_rectangle_corner4_blue_solid)
+                .setButtonAttr(R.color.colorWhite, R.drawable.shape_rectangle_corner4_blue_solid)
                 .addViewMutileAll(attribute, R.layout.textview_flow, list, 5, true);
     }
 
-    public void saveClothes(){
+    public void saveClothes() {
         //厚薄
-        String thicknessStr = String.valueOf(thickness.getProgress()+1);
-        Log.d(TAG, "thickness: "+thicknessStr);
+        String thicknessStr = String.valueOf(thickness.getProgress() + 1);
+        Log.d(TAG, "thickness: " + thicknessStr);
         //场合
         List list = fv_attribute.getSelecteds();
-        StringBuilder attStr= new StringBuilder();
-        for(int i=0;i<list.size();i++){
-            if(list.get(i).toString().equals("0"))
+        StringBuilder attStr = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).toString().equals("0"))
                 continue;
             attStr.append(attribute[Integer.parseInt(list.get(i).toString())]);
             attStr.append("|");
         }
-        if(attStr.length()!=0)
-            attStr.deleteCharAt(attStr.length()-1);
-        Log.d(TAG, "attribute: "+attStr.toString());
+        if (attStr.length() != 0)
+            attStr.deleteCharAt(attStr.length() - 1);
+        Log.d(TAG, "attribute: " + attStr.toString());
         //用户
         SharedPreferences share = getActivity().getSharedPreferences("Login",
                 Context.MODE_PRIVATE);
-        String userid = share.getString("Email",null);
-        Log.d(TAG, "userid: "+userid);
+        String userid = share.getString("Email", null);
+        Log.d(TAG, "userid: " + userid);
         //颜色
         String colorStr = String.format("%06X", 0xFFFFFF & color);
-        Log.d(TAG, "color: "+colorStr);
+        Log.d(TAG, "color: " + colorStr);
 
-        ClothesInformationPack clothes = new ClothesInformationPack(dressid,style,colorStr,thicknessStr,attStr.toString(),userid);
+        //构建json
+        ClothesInformationPack clothes = new ClothesInformationPack(dressid, style, colorStr, thicknessStr, attStr.toString(), userid);
+        JSONObject json = JsonUtils.clothes2JsonWithDressid(clothes.getValues());
+        try {
+            System.out.println(json.toString(1));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        //发送json
+        postJson(json.toString());
+        //接受异步线程的消息
+        handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case 1:
+                        String resp = (String) msg.obj;
+                        //Log.d(TAG, "AddClothesResp: "+resp);
+                        //操作数据库
                         try {
                             DataBase db = new DataBase("clothes",getContext());
                             db.update(clothes.getValues());
                             db.close();
-                            //修改图片名
-
-                            PhotoUtils.modifyPhotoName(dressid);
-                            ToastUtils.showShort(getContext(),"更新成功");
+                            ToastUtils.showShort(getContext(),"修改成功");
                             pop();
                         } catch (Exception e) {
                             e.printStackTrace();
-                            ToastUtils.showShort(getContext(),"更新失败");
+                            ToastUtils.showShort(getContext(),"修改失败");
                         }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
     }
 
-    private void setView(View view){
-        Clothes clothes=null;
+    private void postJson(String json) {
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url("http://39.105.83.165/service/clothes/updateClothesByDressid.action")
+                .post(body)
+                .build();
+        //new call
+        Call call = mOkHttpClient.newCall(request);
+        //请求加入调度
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "EditClothes 网络请求失败");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String resp = response.body().string();
+                Log.d(TAG, "EditClothes 网络请求返回码:" + response.code());
+                //Log.d(TAG, "AddClothes 网络请求返回:" + resp);
+                Message message = Message.obtain();
+                message.what = 1;
+                message.obj = resp;
+                handler.sendMessage(message);
+            }
+        });
+    }
+
+    private void setView(View view) {
+        Clothes clothes = null;
         try {
-            DataBase db = new DataBase("clothes",getContext());
-            clothes= db.queryByDressid(dressid);
+            DataBase db = new DataBase("clothes", getContext());
+            clothes = db.queryByDressid(dressid);
             db.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        int colorStr=Integer.parseInt(clothes.getColor(), 16);
+        int colorStr = Integer.parseInt(clothes.getColor(), 16);
         int red = (colorStr & 0xff0000) >> 16;
         int green = (colorStr & 0x00ff00) >> 8;
         int blue = (colorStr & 0x0000ff);
-        color = Color.rgb(red,green,blue);//一个按无符号数，一个按有符号数，所以从新组了一遍
+        color = Color.rgb(red, green, blue);//一个按无符号数，一个按有符号数，所以从新组了一遍
         colorDisplay.setCardBackgroundColor(color);
-        style=clothes.getStyle();
+        style = clothes.getStyle();
         Uri uri = PhotoUtils.getPhotoUri(dressid);
-        if(uri!=null){
+        if (uri != null) {
             photo.setImageURI(uri);
         }
-        thickness.setProgress(Integer.parseInt(clothes.getThickness())-1);
+        thickness.setProgress(Integer.parseInt(clothes.getThickness()) - 1);
     }
 
 }

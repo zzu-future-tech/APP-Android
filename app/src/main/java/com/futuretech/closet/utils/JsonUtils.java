@@ -36,4 +36,18 @@ public class JsonUtils {
         }
         return jsonObject;
     }
+
+    public static JSONObject clothes2JsonWithDressid(ContentValues values){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("dressid",values.get("dressid"));
+            jsonObject.put("style",values.get("style"));
+            jsonObject.put("color",values.get("color"));
+            jsonObject.put("thickness",values.get("thickness"));
+            jsonObject.put("attribute",values.get("attribute"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 }

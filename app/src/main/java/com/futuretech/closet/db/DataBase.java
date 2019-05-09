@@ -58,8 +58,8 @@ public class DataBase {
             //db.execSQL(sql, new Object[]{name, id});
             // int id= Integer.parseInt(values.get("dressid").toString());
             //   db.update("clothesInformation",values,"dressid=",new String[]{values.get("dress").toString()});
-            db.execSQL("update clothesInformation set dressid=?,style=?, color=?,thickness=?,photo=?,attribute=?,userid=?,gmt_modified=datetime('now','localtime') where dressid=? ", new Object[]{Integer.parseInt(values.get("dressid").toString()),
-                    values.get("style"), values.get("color"), values.get("thickness"), values.get("photo"), values.get("attribute"), values.get("userid"), values.get("dressid")});
+            db.execSQL("update clothesInformation set style=?, color=?,thickness=?,attribute=?,userid=?,gmt_modified=datetime('now','localtime') where dressid=? ", new Object[]{
+                    values.get("style"), values.get("color"), values.get("thickness"), values.get("attribute"), values.get("userid"), values.get("dressid")});
         } catch (Exception e) {
             throw new Exception("更新失败", e);
         }
