@@ -97,8 +97,8 @@ public class UpdateClothesFragment extends BaseBackFragment {
     private File fileCropUri = new File(Environment.getExternalStorageDirectory() + "/Pictures/closet/", "crop_photo.jpg");
     private Uri imageUri;
     private Uri cropImageUri;
-    private static final int OUTPUT_X = 800;
-    private static final int OUTPUT_Y = 800;
+    private static final int OUTPUT_X = 1000;
+    private static final int OUTPUT_Y = 1000;
 
     //attribute定义在AttributeUtils内
     private static String[] attribute = AttributeUtils.attribute;
