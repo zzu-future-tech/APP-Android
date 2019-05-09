@@ -28,4 +28,5 @@
     <string name="error_incorrect_password">密码不正确</string>
     <string name="error_field_required">必填</string>
     <string name="logout">登出</string>
+    <string name="suit">套装</string>
 </resources>
