@@ -35,6 +35,7 @@ import com.futuretech.closet.R;
 import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.db.ClothesInformationPack;
 import com.futuretech.closet.db.DataBase;
+import com.futuretech.closet.utils.AttributeUtils;
 import com.futuretech.closet.utils.JsonUtils;
 import com.futuretech.closet.utils.PhotoUtils;
 import com.futuretech.closet.utils.ToastUtils;
@@ -94,7 +95,9 @@ public class AddClothesFragment extends BaseBackFragment {
     private static final int OUTPUT_X = 800;
     private static final int OUTPUT_Y = 800;
 
-    private static String[] attribute = new String[]{"全选","工作", "休闲", "运动", "其他"};
+    //attribute定义在AttributeUtils内
+    private static String[] attribute = AttributeUtils.attribute;
+
     private FlowView fv_attribute;
 
     private Handler handler;

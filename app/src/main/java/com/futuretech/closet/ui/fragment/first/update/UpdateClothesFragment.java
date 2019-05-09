@@ -37,6 +37,7 @@ import com.futuretech.closet.db.ClothesInformationPack;
 import com.futuretech.closet.db.DataBase;
 import com.futuretech.closet.model.Clothes;
 import com.futuretech.closet.ui.fragment.first.add.AddClothesFragment;
+import com.futuretech.closet.utils.AttributeUtils;
 import com.futuretech.closet.utils.JsonUtils;
 import com.futuretech.closet.utils.PhotoUtils;
 import com.futuretech.closet.utils.ToastUtils;
@@ -98,8 +99,9 @@ public class UpdateClothesFragment extends BaseBackFragment {
     private static final int OUTPUT_X = 800;
     private static final int OUTPUT_Y = 800;
 
+    //attribute定义在AttributeUtils内
+    private static String[] attribute = AttributeUtils.attribute;
 
-    private static String[] attribute = new String[]{"全选", "工作", "休闲", "运动", "其他"};
     private FlowView fv_attribute;
 
     private Handler handler;
@@ -121,7 +123,6 @@ public class UpdateClothesFragment extends BaseBackFragment {
         unbinder = ButterKnife.bind(this, view);
         initView(view);
         setView(view);
-        initFlowView(view);
         return view;
     }
 
@@ -328,17 +329,6 @@ public class UpdateClothesFragment extends BaseBackFragment {
         return state.equals(Environment.MEDIA_MOUNTED);
     }
 
-    //标签初始化
-    public void initFlowView(View view) {
-        fv_attribute = view.findViewById(R.id.fv_style0);
-
-        List list = new ArrayList();
-        fv_attribute.setAttr(R.color.color4dBlack, R.drawable.shape_rectangle_corner4_gray_solid)
-                .setSelectedAttr(R.color.colorWhite, R.drawable.shape_rectangle_corner4_green_solid)
-                .setButtonAttr(R.color.colorWhite, R.drawable.shape_rectangle_corner4_blue_solid)
-                .addViewMutileAll(attribute, R.layout.textview_flow, list, 5, true);
-    }
-
     public void saveClothes() {
         //厚薄
         String thicknessStr = String.valueOf(thickness.getProgress() + 1);
@@ -456,6 +446,13 @@ public class UpdateClothesFragment extends BaseBackFragment {
             photo.setImageURI(uri);
         }
         thickness.setProgress(Integer.parseInt(clothes.getThickness()) - 1);
+
+        fv_attribute = view.findViewById(R.id.fv_style0);
+        List list = AttributeUtils.string2IdList(clothes.getAttribute());
+        fv_attribute.setAttr(R.color.color4dBlack, R.drawable.shape_rectangle_corner4_gray_solid)
+                .setSelectedAttr(R.color.colorWhite, R.drawable.shape_rectangle_corner4_green_solid)
+                .setButtonAttr(R.color.colorWhite, R.drawable.shape_rectangle_corner4_blue_solid)
+                .addViewMutileAll(attribute, R.layout.textview_flow, list, 5, true);
     }
 
 }
