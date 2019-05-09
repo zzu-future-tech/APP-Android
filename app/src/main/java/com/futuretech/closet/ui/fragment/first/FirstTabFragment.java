@@ -55,13 +55,13 @@ public class FirstTabFragment extends BaseMainFragment {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         //建立衣服类型的名称和图片对应的数组
-        String[] names={"T恤","外套","卫衣","衬衫","西装","大衣","风衣","棉衣","毛衣","连衣裙","短裤","长裤","裙子","牛仔裤"};
+        String[] names={"T恤","外套","卫衣","衬衫","西装","大衣","风衣","棉衣","毛衣","连衣裙","短裤","休闲裤","裙子","牛仔裤","西裤"};
         int[] resImages={R.drawable.clothes_tshirt,R.drawable.clothes_coat,R.drawable.clothes_fleece,R.drawable.clothes_shirt,
                 R.drawable.clothes_xizhuang,R.drawable.clothes_dayi,R.drawable.clothes_fengyi,R.drawable.clothes_mianyi,R.drawable.clothes_maoyi,
-                R.drawable.clothes_dress,R.drawable.clothes_duanku,R.drawable.clothes_changku,R.drawable.clothes_skirt,R.drawable.clothes_niuzaiku};
+                R.drawable.clothes_dress,R.drawable.clothes_duanku,R.drawable.clothes_changku,R.drawable.clothes_skirt,R.drawable.clothes_niuzaiku,R.drawable.clothes_xiku};
 
         final ArrayList<ClothesClass> words = new ArrayList<>();
-        for(int i=0;i<14;i++) {
+        for(int i=0;i<15;i++) {
             words.add(new ClothesClass(names[i], resImages[i]));
         }
 
