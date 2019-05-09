@@ -1,12 +1,16 @@
 package com.futuretech.closet.ui.fragment.first;
 
 import android.app.ActionBar;
+import android.support.v7.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,12 +51,16 @@ import okhttp3.Response;
 import static android.support.constraint.Constraints.TAG;
 
 public class ClothesInfoFragment extends BaseBackFragment {
+    private CardView cardView;
     private Toolbar toolbar;
     private static String className;
     private static int dressid;
     private View view;
 
     private Handler handler;
+
+    private Button edit;
+    private Button delete;
 
 
     public static ClothesInfoFragment newInstance(String name,int id) {
@@ -67,42 +76,61 @@ public class ClothesInfoFragment extends BaseBackFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.fragment_tab_clothes_info, container, false);
+        view = inflater.inflate(R.layout.fragment_tab_clothes_info, container, false);
         initView(view);
-        setView();
+
         return view;
     }
 
     private void initView(View view) {
 
         toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle(className);
-        toolbar.inflateMenu(R.menu.clothes_info_menu);
-
+        toolbar.setTitle("衣物信息");
+        //toolbar.inflateMenu(R.menu.clothes_info_menu);
 
         //添加工具栏返回箭头
         initToolbarNav(toolbar);
 
+        cardView = view.findViewById(R.id.cardView);
+        edit = view.findViewById(R.id.edit);
+        delete = view.findViewById(R.id.delete);
     }
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch(menuItem.getItemId()) {
-                    case R.id.delete:
-                        //Toast.makeText(getActivity(), "你点击了删除", Toast.LENGTH_SHORT).show();
-                        deleteClothes();
-                        return true;
-                    case R.id.edit:
-                        //Toast.makeText(getActivity(), "你点击了修改", Toast.LENGTH_SHORT).show();
-                        start(UpdateClothesFragment.newInstance(dressid));
-                        return true;
-                }return false;
-            }
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//                switch(menuItem.getItemId()) {
+//                    case R.id.delete:
+//                        //Toast.makeText(getActivity(), "你点击了删除", Toast.LENGTH_SHORT).show();
+//                        deleteClothes();
+//                        return true;
+//                    case R.id.edit:
+//                        //Toast.makeText(getActivity(), "你点击了修改", Toast.LENGTH_SHORT).show();
+//                        start(UpdateClothesFragment.newInstance(dressid));
+//                        return true;
+//                }return false;
+//            }
+//        });
+
+        edit.setOnClickListener(v -> {
+            start(UpdateClothesFragment.newInstance(dressid));
         });
+
+        delete.setOnClickListener(v -> {
+            AlertDialog dialog = new AlertDialog.Builder(getContext())
+                    .setTitle("删除")
+                    //setMessage是用来显示字符串的
+                    .setMessage("确认删除此衣物？")
+                    .setPositiveButton("确定", (dialog1, which) -> deleteClothes())
+                    .setNegativeButton("取消", null)
+                    .create();
+            dialog.show();
+        });
+
+        setView();
     }
 
 
@@ -201,17 +229,20 @@ public class ClothesInfoFragment extends BaseBackFragment {
             iv.setImageURI(uri);
         }
 
-        TextView t1= view.findViewById(R.id.text1);
-        t1.setText("ID:"+dressid);
+//        TextView t1= view.findViewById(R.id.text1);
+//        t1.setText("ID:"+dressid);
+//
+//        TextView t2= view.findViewById(R.id.text2);
+//        t2.setText("场合:"+clothes.getAttribute());
+//
+//        TextView t3= view.findViewById(R.id.text3);
+//        t3.setText("颜色:"+clothes.getColor());
+//
+//        TextView t4= view.findViewById(R.id.text4);
+//        t4.setText("厚度:"+ clothes.getThickness());
 
-        TextView t2= view.findViewById(R.id.text2);
-        t2.setText("场合:"+clothes.getAttribute());
-
-        TextView t3= view.findViewById(R.id.text3);
-        t3.setText("颜色:"+clothes.getColor());
-
-        TextView t4= view.findViewById(R.id.text4);
-        t4.setText("厚度:"+ clothes.getThickness());
+//        int color = Color.parseColor("#"+clothes.getColor());
+//        cardView.setCardBackgroundColor(color);
     }
 
     @Override

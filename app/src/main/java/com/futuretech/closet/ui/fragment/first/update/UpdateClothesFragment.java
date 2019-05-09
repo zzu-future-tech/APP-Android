@@ -20,6 +20,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -128,9 +129,10 @@ public class UpdateClothesFragment extends BaseBackFragment {
 
     private void initView(View view) {
         toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle("更新" + dressid);
+        toolbar.setTitle("修改衣物信息");
         //添加工具栏返回箭头
         initToolbarNav(toolbar);
+        saveBtn.setText("修改");
 
         //获取图片颜色
         photo.setOnTouchListener(new View.OnTouchListener() {
@@ -168,7 +170,14 @@ public class UpdateClothesFragment extends BaseBackFragment {
 
         //保存按钮
         saveBtn.setOnClickListener(v -> {
-            saveClothes();
+            AlertDialog dialog = new AlertDialog.Builder(getContext())
+                    .setTitle("修改")
+                    //setMessage是用来显示字符串的
+                    .setMessage("确认修改此衣物？")
+                    .setPositiveButton("确定", (dialog1, which) -> saveClothes())
+                    .setNegativeButton("取消",null)
+                    .create();
+            dialog.show();
         });
 
     }
