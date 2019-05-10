@@ -50,13 +50,13 @@ public class LoginActivity extends AppCompatActivity {
         //sharedPreferences = this.getSharedPreferences("Login", Context.MODE_PRIVATE);
 
         // 获取sharedpreferences对象
-        SharedPreferences share = getSharedPreferences("Login",
+        sharedPreferences = getSharedPreferences("Login",
                 Context.MODE_PRIVATE);
-        _emailText.setText(share.getString("Email", ""));
-        _passwordText.setText(share.getString("Password", ""));
+        _emailText.setText(sharedPreferences.getString("Email", ""));
+        _passwordText.setText(sharedPreferences.getString("Password", ""));
 
         //自动登录
-        if(share.getBoolean("LoginBool",false)){
+        if(sharedPreferences.getBoolean("LoginBool",false)){
             login();
         }
 

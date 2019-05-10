@@ -43,4 +43,5 @@ dependencies {
     implementation 'com.github.liangzhongtai:FlowView:v1.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.github.liangzhongtai:FlowView:v1.1'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
 }
