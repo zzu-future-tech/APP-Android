@@ -1,5 +1,6 @@
 package com.futuretech.closet.ui.fragment.central;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -103,9 +104,15 @@ public class CentralTabFragment extends BaseMainFragment {
     }
 
     public void addSuit(List<Integer> list){
+
+        //userid
+        SharedPreferences share = getActivity().getSharedPreferences("Login",
+                Context.MODE_PRIVATE);
+        String userid = share.getString("Email",null);
+
         try {
             DataBase db = new DataBase("clothes",getContext());
-            SuitsInformationPack suit = new SuitsInformationPack(list.get(0),list.get(1));
+            SuitsInformationPack suit = new SuitsInformationPack(list.get(0),list.get(1),userid);
             db.insertSuit(suit.getValues());
             db.close();
 

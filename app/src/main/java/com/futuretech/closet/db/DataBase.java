@@ -2,6 +2,7 @@ package com.futuretech.closet.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -20,6 +21,9 @@ import java.util.List;
  * 需在try catch中使用该类及方法
  */
 public class DataBase {
+
+    private String userid;
+
     public SQLiteDatabase db;
 
     /*
@@ -35,6 +39,9 @@ public class DataBase {
         } catch (Exception e) {
             throw new Exception("创建数据库失败", e);
         }
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Login", Context.MODE_PRIVATE);
+        userid = sharedPreferences.getString("Email", "");
     }
 
     /*
@@ -167,8 +174,8 @@ public class DataBase {
     public List<Clothes> queryClothesByStyle(String style) throws Exception {
         List<Clothes> list = new ArrayList<>();
         try {
-            String sql = "select * from clothesInformation where style=?";
-            Cursor cursor = db.rawQuery(sql,  new String[]{String.valueOf(style)});
+            String sql = "select * from clothesInformation where style=? and userid=?";
+            Cursor cursor = db.rawQuery(sql,  new String[]{String.valueOf(style),userid});
 
             while (cursor.moveToNext()) {
                 Clothes clothes = new Clothes(
@@ -189,8 +196,8 @@ public class DataBase {
 
     public void insertSuit(ContentValues values)throws Exception{
         try {
-            db.execSQL("insert into suits (dressid1,dressid2,gmt_create) values(?,?,datetime('now','localtime'))", new Object[]{Integer.parseInt(values.get("dressid1").toString()),
-                    Integer.parseInt(values.get("dressid2").toString())});
+            db.execSQL("insert into suits (dressid1,dressid2,userid,gmt_create) values(?,?,?,datetime('now','localtime'))", new Object[]{Integer.parseInt(values.get("dressid1").toString()),
+                    Integer.parseInt(values.get("dressid2").toString()),values.get("userid")});
         } catch (Exception e) {
             throw new Exception("插入失败", e);
         }
@@ -202,8 +209,8 @@ public class DataBase {
     public List<SuitClass> queryAllSuits() throws Exception {
         List<SuitClass> list = new ArrayList<>();
         try {
-            String sql = "select * from suits";
-            Cursor cursor = db.rawQuery(sql, null);
+            String sql = "select * from suits where userid=?";
+            Cursor cursor = db.rawQuery(sql,  new String[]{userid});
 
             while (cursor.moveToNext()) {
                 SuitClass suits = new SuitClass(
