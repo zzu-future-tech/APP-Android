@@ -137,8 +137,8 @@ public class CentralTabFragment extends BaseMainFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //int dressid = adapter.getItem(position).getDressid();
-                //start(ClothesInfoFragment.newInstance(className,dressid));
-                Toast.makeText(getActivity(), "点击了"+adapter.getItem(position), Toast.LENGTH_SHORT).show();
+                ((MainFragment) getParentFragment()).startBrotherFragment(SuitsInfoFragment.newInstance(adapter.getItem(position)));
+                //Toast.makeText(getActivity(), "点击了"+adapter.getItem(position).getId(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -149,9 +149,9 @@ public class CentralTabFragment extends BaseMainFragment {
         if(list!=null){
             if(list.size()==2){
                 addSuit(list);
-                setView();
                 list.clear();
             }
         }
+        setView();
     }
 }

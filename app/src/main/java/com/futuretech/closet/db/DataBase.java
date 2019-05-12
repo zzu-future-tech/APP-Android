@@ -207,6 +207,7 @@ public class DataBase {
 
             while (cursor.moveToNext()) {
                 SuitClass suits = new SuitClass(
+                        cursor.getInt(cursor.getColumnIndex("id")),
                         cursor.getInt(cursor.getColumnIndex("dressid1")),
                         cursor.getInt(cursor.getColumnIndex("dressid2"))
                 );
@@ -217,6 +218,17 @@ public class DataBase {
             throw new Exception("查询失败", e);
         }
         return list;
+    }
+
+    /*
+     * 根据套装id删除
+     */
+    public void deleteSuitsByid(int id) throws Exception {
+        try {
+            db.execSQL(String.format("delete from  suits where id=  %d", id));
+        } catch (Exception e) {
+            throw new Exception("删除失败", e);
+        }
     }
 
     public void close() {
