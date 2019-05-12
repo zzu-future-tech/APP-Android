@@ -214,35 +214,20 @@ public class ClothesInfoFragment extends BaseBackFragment {
 
 
     private void setView(){
-        Clothes clothes=null;
-        try {
-            DataBase db = new DataBase("clothes",getContext());
-            clothes= db.queryByDressid(dressid);
-            db.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        Clothes clothes=null;
+//        try {
+//            DataBase db = new DataBase("clothes",getContext());
+//            clothes= db.queryByDressid(dressid);
+//            db.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         ImageView iv= view.findViewById(R.id.imageView);
         Uri uri = PhotoUtils.getPhotoUri(dressid);
         if(uri!=null){
             iv.setImageURI(uri);
         }
-
-//        TextView t1= view.findViewById(R.id.text1);
-//        t1.setText("ID:"+dressid);
-//
-//        TextView t2= view.findViewById(R.id.text2);
-//        t2.setText("场合:"+clothes.getAttribute());
-//
-//        TextView t3= view.findViewById(R.id.text3);
-//        t3.setText("颜色:"+clothes.getColor());
-//
-//        TextView t4= view.findViewById(R.id.text4);
-//        t4.setText("厚度:"+ clothes.getThickness());
-
-//        int color = Color.parseColor("#"+clothes.getColor());
-//        cardView.setCardBackgroundColor(color);
     }
 
     @Override
