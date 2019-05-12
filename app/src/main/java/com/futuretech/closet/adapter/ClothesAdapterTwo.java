@@ -46,30 +46,25 @@ public class ClothesAdapterTwo extends ArrayAdapter<Clothes> {
         }
 
 
-
-
         //设置背景色
         Clothes currentItem = getItem(position);
-        CardView cardView=listItemView.findViewById(R.id.cardView);
-        int color = Color.parseColor("#"+currentItem.getColor());
+        CardView cardView = listItemView.findViewById(R.id.cardView);
+        int color = Color.parseColor("#" + currentItem.getColor());
         cardView.setCardBackgroundColor(color);
 
         //设置图片
         ImageView imageView = listItemView.findViewById(R.id.imageView);
         int dressid = currentItem.getDressid();
         Uri uri = PhotoUtils.getPhotoUri(dressid);
-        if(uri!=null){
+        if (uri != null) {
             //imageView.setImageURI(uri);
             Glide
                     .with(getContext())
                     .load(uri)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageView);
-            Log.d(TAG, "设置图片");
+            //Log.d(TAG, "设置图片");
         }
-
-
-
         return listItemView;
     }
 }

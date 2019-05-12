@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
+    <include
+        android:id="@+id/include_toolbar"
+        layout="@layout/toolbar" />
 
-    <ImageView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/tamaki" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layout_constraintTop_toBottomOf="@+id/include_toolbar">
+
+        <GridView
+            android:id="@+id/grid_suits"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="2" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_suits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:elevation="12dp"
+            app:pressedTranslationZ="12dp"
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            app:backgroundTint="@color/colorAccent"/>
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

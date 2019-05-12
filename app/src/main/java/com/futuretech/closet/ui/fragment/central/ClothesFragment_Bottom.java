@@ -1,4 +1,4 @@
-package com.futuretech.closet.ui.fragment.first;
+package com.futuretech.closet.ui.fragment.central;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,8 +17,15 @@ import com.futuretech.closet.adapter.ClothesAdapterTwo;
 import com.futuretech.closet.base.BaseBackFragment;
 
 import com.futuretech.closet.db.DataBase;
+import com.futuretech.closet.event.MessageEvent;
 import com.futuretech.closet.model.Clothes;
+import com.futuretech.closet.ui.fragment.MainFragment;
+import com.futuretech.closet.ui.fragment.central.CentralTabFragment;
 import com.futuretech.closet.ui.fragment.first.add.AddClothesFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +33,7 @@ import java.util.List;
 import static android.support.constraint.Constraints.TAG;
 
 
-public class ClothesFragment extends BaseBackFragment {
+public class ClothesFragment_Bottom extends BaseBackFragment {
 
     private Toolbar toolbar;
     private GridView gridView;
@@ -35,10 +42,10 @@ public class ClothesFragment extends BaseBackFragment {
     private FloatingActionButton addBtn;
 
 
-    public static ClothesFragment newInstance(String name) {
+    public static ClothesFragment_Bottom newInstance(String name) {
 
         Bundle args = new Bundle();
-        ClothesFragment fragment = new ClothesFragment();
+        ClothesFragment_Bottom fragment = new ClothesFragment_Bottom();
         fragment.setArguments(args);
 
         className = name;
@@ -89,9 +96,7 @@ public class ClothesFragment extends BaseBackFragment {
             e.printStackTrace();
         }
 
-        if (list != null) {
-            adapter = new ClothesAdapterTwo(getActivity(), list);
-        }
+        adapter = new ClothesAdapterTwo(getActivity(), list);
 
         gridView.setAdapter(adapter);
 
@@ -99,8 +104,8 @@ public class ClothesFragment extends BaseBackFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int dressid = adapter.getItem(position).getDressid();
-                start(ClothesInfoFragment.newInstance(className,dressid));
-                //Toast.makeText(getActivity(), "点击了"+adapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post(new MessageEvent(dressid));  // 发布事件
+                popTo(MainFragment.class,false);
             }
         });
     }
@@ -110,5 +115,4 @@ public class ClothesFragment extends BaseBackFragment {
         super.onSupportVisible();
         setView();
     }
-
 }

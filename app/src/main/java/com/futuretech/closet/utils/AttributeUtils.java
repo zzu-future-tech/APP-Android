@@ -54,7 +54,7 @@ public class AttributeUtils {
     private static List<String> splitString(String str){
         String[] ss = str.split("\\|");
         List<String> stringList = Arrays.asList(ss);
-        Log.d(TAG, "splitString: "+stringList);
+        //Log.d(TAG, "splitString: "+stringList);
         return stringList;
     }
 
@@ -67,7 +67,7 @@ public class AttributeUtils {
                 }
             }
         }
-        Log.d(TAG, "stringList2IdList: "+idList);
+        //Log.d(TAG, "stringList2IdList: "+idList);
         return idList;
     }
 }

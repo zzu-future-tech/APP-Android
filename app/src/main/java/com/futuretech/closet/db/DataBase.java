@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.futuretech.closet.model.Clothes;
+import com.futuretech.closet.model.SuitClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -178,6 +179,38 @@ public class DataBase {
                         cursor.getString(cursor.getColumnIndex("attribute"))
                 );
                 list.add(clothes);
+            }
+
+        } catch (Exception e) {
+            throw new Exception("查询失败", e);
+        }
+        return list;
+    }
+
+    public void insertSuit(ContentValues values)throws Exception{
+        try {
+            db.execSQL("insert into suits (dressid1,dressid2,gmt_create) values(?,?,datetime('now','localtime'))", new Object[]{Integer.parseInt(values.get("dressid1").toString()),
+                    Integer.parseInt(values.get("dressid2").toString())});
+        } catch (Exception e) {
+            throw new Exception("插入失败", e);
+        }
+    }
+
+    /*
+     *查询所有套装
+     */
+    public List<SuitClass> queryAllSuits() throws Exception {
+        List<SuitClass> list = new ArrayList<>();
+        try {
+            String sql = "select * from suits";
+            Cursor cursor = db.rawQuery(sql, null);
+
+            while (cursor.moveToNext()) {
+                SuitClass suits = new SuitClass(
+                        cursor.getInt(cursor.getColumnIndex("dressid1")),
+                        cursor.getInt(cursor.getColumnIndex("dressid2"))
+                );
+                list.add(suits);
             }
 
         } catch (Exception e) {
