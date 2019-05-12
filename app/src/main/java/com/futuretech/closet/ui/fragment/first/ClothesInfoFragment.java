@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.futuretech.closet.R;
 import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.db.DataBase;
@@ -226,7 +228,12 @@ public class ClothesInfoFragment extends BaseBackFragment {
         ImageView iv= view.findViewById(R.id.imageView);
         Uri uri = PhotoUtils.getPhotoUri(dressid);
         if(uri!=null){
-            iv.setImageURI(uri);
+            //iv.setImageURI(uri);
+            Glide
+                    .with(getContext())
+                    .load(uri)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(iv);
         }
     }
 

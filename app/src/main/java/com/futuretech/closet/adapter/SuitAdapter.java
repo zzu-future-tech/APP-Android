@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.futuretech.closet.R;
 import com.futuretech.closet.model.ClothesClass;
 import com.futuretech.closet.model.SuitClass;
@@ -41,11 +43,21 @@ public class SuitAdapter extends ArrayAdapter<SuitClass> {
 
         Uri uriTop = PhotoUtils.getPhotoUri(currentItem.getTopId());
         if(uriTop!=null){
-            top.setImageURI(uriTop);
+            //top.setImageURI(uriTop);
+            Glide
+                    .with(getContext())
+                    .load(uriTop)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(top);
         }
         Uri uriBottom = PhotoUtils.getPhotoUri(currentItem.getBottomId());
         if(uriBottom!=null){
-            bottom.setImageURI(uriBottom);
+            //bottom.setImageURI(uriBottom);
+            Glide
+                    .with(getContext())
+                    .load(uriBottom)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(bottom);
         }
         return listItemView;
 
