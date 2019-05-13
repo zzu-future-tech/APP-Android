@@ -7,7 +7,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="100dp"
-        android:src="@drawable/mea"
+        android:src="@drawable/avatar"
         android:layout_gravity="center"
         android:layout_height="100dp"/>
 </FrameLayout>
