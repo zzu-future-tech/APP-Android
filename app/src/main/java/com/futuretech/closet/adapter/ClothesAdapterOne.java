@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.futuretech.closet.R;
 import com.futuretech.closet.model.ClothesClass;
 
@@ -40,12 +42,15 @@ public class ClothesAdapterOne extends ArrayAdapter<ClothesClass> {
         ClothesClass currentItem = getItem(position);
         //设置图片和文字
         ImageView imageView=listItemView.findViewById(R.id.imageView);
-        imageView.setImageDrawable(this.getContext().getResources().getDrawable(Objects.requireNonNull(currentItem).getImageSrc()));
+        //imageView.setImageDrawable(this.getContext().getResources().getDrawable(Objects.requireNonNull(currentItem).getImageSrc()));
+        Glide
+                .with(getContext())
+                .load((currentItem).getImageSrc())
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(imageView);
 
         TextView textView = listItemView.findViewById(R.id.textView);
         textView.setText(Objects.requireNonNull(currentItem).getName());
-
-
 
         return listItemView;
 

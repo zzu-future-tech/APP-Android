@@ -1,55 +1,24 @@
 package com.futuretech.closet.ui.fragment.central;
 
-import android.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.futuretech.closet.R;
 import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.db.DataBase;
-import com.futuretech.closet.model.Clothes;
 import com.futuretech.closet.model.SuitClass;
-import com.futuretech.closet.ui.fragment.first.update.UpdateClothesFragment;
-import com.futuretech.closet.utils.JsonUtils;
 import com.futuretech.closet.utils.PhotoUtils;
 import com.futuretech.closet.utils.ToastUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class SuitsInfoFragment extends BaseBackFragment {
     private CardView cardView;
@@ -75,7 +44,7 @@ public class SuitsInfoFragment extends BaseBackFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_tab_suits_info, container, false);
+        view = inflater.inflate(R.layout.fragment_tab_central_suits_info, container, false);
         initView(view);
 
         return view;

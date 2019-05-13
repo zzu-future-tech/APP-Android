@@ -49,7 +49,7 @@ public class ClothesFragment extends BaseBackFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tab_clothes, container, false);
+        View view = inflater.inflate(R.layout.listview_clothes_adapter_suit, container, false);
         initView(view);
         return view;
     }

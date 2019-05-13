@@ -3,8 +3,14 @@ package com.futuretech.closet.utils;
 import android.content.ContentValues;
 import android.util.Log;
 
+import com.futuretech.closet.model.SuitClass;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -49,5 +55,42 @@ public class JsonUtils {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public static JSONObject reqMatchJson(String userid,String location,String attribute,String past){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userid",userid);
+            jsonObject.put("location",location);
+            jsonObject.put("attribute",attribute);
+            jsonObject.put("past",past);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public static List<SuitClass> matchJsonResolve(String resp){
+        List<SuitClass> suits = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(resp);
+
+            for (int i = 0; i < 6; i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                if (jsonObject != null) {
+                    int dressid1 = jsonObject.optInt("dressid1");
+                    int dressid2 = jsonObject.optInt("dressid2");
+                    Log.d(TAG, "matchJsonResolve: dressid1:"+dressid1+" dressid2:"+dressid2);
+                    // 封装Java对象
+                    SuitClass suitClass = new SuitClass(dressid1,dressid2);
+
+                    suits.add(suitClass);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return suits;
     }
 }

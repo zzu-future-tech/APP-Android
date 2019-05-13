@@ -31,4 +31,24 @@
     <string name="logout">Logout</string>
     <string name="suit">Suit</string>
 
+    <string-array name="attribute">
+        <item>选择场合</item>
+        <item>工作</item>
+        <item>休闲</item>
+        <item>运动</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="past">
+        <item>选择几天后到达</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
 </resources>

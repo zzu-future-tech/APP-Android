@@ -22,7 +22,7 @@
         android:hardwareAccelerated="true"
         android:networkSecurityConfig="@xml/network_config"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.futuretech.closet.MainActivity">
+        <activity android:name="com.futuretech.closet.MainActivity" android:theme="@style/DefaultCityPickerTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
