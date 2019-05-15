@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--<EditText-->
+        <!--android:id="@+id/bditext"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="166dp"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--android:hint="| 输入要发布的内容"-->
+        <!--android:padding="5dp"-->
+        <!--android:textColorHint="@android:color/black"-->
+        <!--android:gravity="top"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--/>-->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:gravity="top">
+
+        <EditText
+            android:id="@+id/bditext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="输入要发布的内容"
+            android:inputType="textMultiLine" />
+    </android.support.design.widget.TextInputLayout>
+    <GridView
+        android:id="@+id/gridviews"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="1dp"
+        android:numColumns="3"
+        android:verticalSpacing="1dp" />
+
+    <Button
+        android:id="@+id/sendBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="发送动态" />
+</LinearLayout>
