@@ -7,18 +7,20 @@
     android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
+        android:orientation="vertical"
         android:paddingLeft="24dp"
+        android:paddingTop="24dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/sekiro"
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/signup" />
 
         <!--  Name Label -->
 
@@ -28,11 +30,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_email"
+
+            <EditText
+                android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="Email" />
+                android:hint="邮箱"
+                android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
@@ -52,7 +56,7 @@
                     android:id="@+id/input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="密码"
                     android:inputType="textPassword" />
 
             </android.support.design.widget.TextInputLayout>
@@ -90,7 +94,7 @@
                     android:id="@+id/input_code"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Verification Code"
+                    android:hint="验证码"
                     android:inputType="textCapWords" />
             </android.support.design.widget.TextInputLayout>
 
@@ -100,7 +104,7 @@
                 android:layout_height="match_parent"
 
                 android:layout_weight="3"
-                android:text="Send Code" />
+                android:text="发送验证码" />
         </LinearLayout>
 
         <android.support.design.button.MaterialButton
@@ -110,15 +114,16 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="Create Account"/>
+            android:text="创建账号" />
 
-        <TextView android:id="@+id/link_login"
+        <TextView
+            android:id="@+id/link_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="Already a member? Login"
             android:gravity="center"
-            android:textSize="16dip"/>
+            android:text="有账号？点我登录"
+            android:textSize="16dip" />
 
     </LinearLayout>
 </ScrollView>

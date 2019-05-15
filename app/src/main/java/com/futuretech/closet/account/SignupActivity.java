@@ -135,12 +135,12 @@ public class SignupActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(SignupActivity.this);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage("创建账号中......");
         progressDialog.show();
 
         String email = _emailText.getText().toString();
         String code = _codeText.getText().toString();
-        // TODO: 发送邮箱密码验证码
+
         doSignup2(email, code);
 
 
@@ -171,7 +171,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Signup failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "注册失败", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -197,14 +197,14 @@ public class SignupActivity extends AppCompatActivity {
 
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("请输入有效的邮箱地址");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+        if (password.isEmpty() || password.length() < 4 || password.length() > 20) {
+            _passwordText.setError("请输入4到20位的密码");
             valid = false;
         } else {
             _passwordText.setError(null);
