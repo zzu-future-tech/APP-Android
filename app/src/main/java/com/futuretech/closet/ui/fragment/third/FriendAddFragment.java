@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -30,13 +31,12 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import static android.support.constraint.Constraints.TAG;
 
 public class FriendAddFragment extends BaseBackFragment {
-    private static final int REQUEST_CAMERA_CODE = 10;
-    private static final int REQUEST_PREVIEW_CODE = 20;
     private ArrayList<String> imagePaths = new ArrayList<>();
-    private ArrayList<String >upload=new ArrayList<>();
+    private ArrayList<String> upload=new ArrayList<>();
 
     private GridView gridView;
     private GridAdapter gridAdapter;
+    private Toolbar toolbar;
 
 
     public static FriendAddFragment newInstance() {
@@ -55,9 +55,12 @@ public class FriendAddFragment extends BaseBackFragment {
     }
 
     private void initView(View view) {
-        gridView = (GridView) view.findViewById(R.id.gridviews);
+        toolbar = view.findViewById(R.id.toolbar);
+        initToolbarNav(toolbar);
+        toolbar.setTitle("发送动态");
+        gridView = view.findViewById(R.id.gridviews);
 
-        Button sendBtn=(Button)view.findViewById(R.id.sendBtn);
+        Button sendBtn= view.findViewById(R.id.sendBtn);
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,25 +74,32 @@ public class FriendAddFragment extends BaseBackFragment {
         int cols = getResources().getDisplayMetrics().widthPixels / getResources().getDisplayMetrics().densityDpi;
         cols = cols < 3 ? 3 : cols;
         gridView.setNumColumns(cols);
+
+
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                try {
 
-                String imgs = (String) parent.getItemAtPosition(position);
-                if ("000000".equals(imgs) ){
-                    try {
+                    imagePaths.remove("000000");
 
-                        Intent intent= new Intent(getContext(), MultiImageSelectorActivity.class);
-                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA,true);
-                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT,10);
-                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE,MultiImageSelectorActivity.MODE_MULTI);
-                        intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST,imagePaths);
-                        startActivityForResult(intent,10);
-                    }catch(Exception e){
-                        Toast.makeText(getContext(),"faild" , Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
+                    Intent intent= new Intent(getContext(), MultiImageSelectorActivity.class);
+                    intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA,true);
+                    intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT,9);
+                    intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE,MultiImageSelectorActivity.MODE_MULTI);
+                    intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST,imagePaths);
+                    startActivityForResult(intent,9);
+
+
+                    if(!imagePaths.contains("000000")){
+                        imagePaths.add("000000");
                     }
+
+                }catch(Exception e){
+                    Toast.makeText(getContext(),"failed" , Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
             }
         });
@@ -112,9 +122,7 @@ public class FriendAddFragment extends BaseBackFragment {
         if (imagePaths!=null&& imagePaths.size()>0){
             imagePaths.clear();
         }
-        if (paths.contains("000000")){
-            paths.remove("000000");
-        }
+        paths.remove("000000");
         if(paths.size()<9)
             paths.add("000000");
         imagePaths.addAll(paths);
@@ -158,7 +166,7 @@ public class FriendAddFragment extends BaseBackFragment {
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.listview_friends_adapter_photo, parent,false);
-                holder.image = (ImageView) convertView.findViewById(R.id.imageView);
+                holder.image = convertView.findViewById(R.id.imageView);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder)convertView.getTag();

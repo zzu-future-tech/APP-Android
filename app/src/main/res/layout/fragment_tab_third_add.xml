@@ -16,6 +16,7 @@
         <!--android:gravity="top"-->
         <!--android:textColor="@android:color/black"-->
         <!--/>-->
+    <include layout="@layout/toolbar"/>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,5 +46,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        android:text="发送动态" />
+        android:text="发送" />
 </LinearLayout>
