@@ -14,39 +14,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
-
-
     <style name="Toolbar_TextAppearance_White">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
-    <style name="Toolbar_TextAppearance_Expanded">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar.AppBarOverlay"
-        parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
-
-    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light">
-        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar.SwipeBack">
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
-    <style name="tab_appearance">
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
-        <item name="overlapAnchor">false</item> <!--把该属性改为false即可使menu位置位于toolbar之下-->
-    </style>
 
     <style name="AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="android:layout_margin">6dp</item>
