@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
 
     </style>
 
@@ -13,12 +14,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
-    <style name="Toolbar_TextAppearance_White">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/textColorPrimary</item>
-    </style>
-
 
     <style name="AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="android:layout_margin">6dp</item>

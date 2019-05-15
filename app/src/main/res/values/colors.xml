@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#3F51B5</color>-->
-    <!--<color name="colorPrimaryDark">#303F9F</color>-->
-    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorPrimary">#2196f3</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
 
     <!--<color name="colorPrimary">#F44336</color>-->
     <!--<color name="colorPrimaryDark">#D32F2F</color>-->
     <!--<color name="colorAccent">#536DFE</color>-->
 
-    <color name="colorPrimary">#ffcdd2</color>
-    <color name="colorPrimaryDark">#cb9ca1</color>
-    <color name="colorAccent">#fcc3b2</color>
-
-    <color name="primaryColor">#ffcdd2</color>
-    <color name="primaryLightColor">#ffffff</color>
-    <color name="primaryDarkColor">#cb9ca1</color>
-
-    <color name="secondaryColor">#fcc3b2</color>
-    <color name="secondaryLightColor">#fff6e4</color>
-    <color name="secondaryDarkColor">#c89282</color>
-
-    <color name="primaryTextColor">#000000</color>
-    <color name="secondaryTextColor">#f7f3ef</color>
+    <!--<color name="colorPrimary">#ffcdd2</color>-->
+    <!--<color name="colorPrimaryDark">#cb9ca1</color>-->
+    <!--<color name="colorAccent">#fcc3b2</color>-->
 
 
-    <!--<color name="textColorPrimary">#c9c9c9</color>-->
-    <color name="textColorPrimary">#000000</color>
+    <color name="secondaryColor">#c9c9c9</color>
+
+
+    <color name="textColorPrimary">#c9c9c9</color>
+    <color name="textColorSecondary">#FFFFFF</color>
+    <!--<color name="textColorPrimary">#000000</color>-->
+
 
 
     <color name="color4dBlack">#4D5054</color>
