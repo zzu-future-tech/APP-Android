@@ -1,8 +1,12 @@
 package com.futuretech.closet.ui.fragment.third;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +41,8 @@ public class FriendAddFragment extends BaseBackFragment {
     private GridView gridView;
     private GridAdapter gridAdapter;
     private Toolbar toolbar;
+
+    private static final int PERMISSIONS_REQUEST_CODE = 0x04;
 
 
     public static FriendAddFragment newInstance() {
@@ -81,31 +87,50 @@ public class FriendAddFragment extends BaseBackFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                try {
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
+                }else{
+                    try {
 
-                    imagePaths.remove("000000");
+                        imagePaths.remove("000000");
 
-                    Intent intent= new Intent(getContext(), MultiImageSelectorActivity.class);
-                    intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA,true);
-                    intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT,9);
-                    intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE,MultiImageSelectorActivity.MODE_MULTI);
-                    intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST,imagePaths);
-                    startActivityForResult(intent,9);
+                        Intent intent= new Intent(getContext(), MultiImageSelectorActivity.class);
+                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA,true);
+                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT,9);
+                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE,MultiImageSelectorActivity.MODE_MULTI);
+                        intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST,imagePaths);
+                        startActivityForResult(intent,9);
 
 
-                    if(!imagePaths.contains("000000")){
-                        imagePaths.add("000000");
+                        if(!imagePaths.contains("000000")){
+                            imagePaths.add("000000");
+                        }
+
+                    }catch(Exception e){
+                        Toast.makeText(getContext(),"failed" , Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
-
-                }catch(Exception e){
-                    Toast.makeText(getContext(),"failed" , Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
                 }
             }
         });
         imagePaths.add("000000");
         gridAdapter = new GridAdapter(imagePaths);
         gridView.setAdapter(gridAdapter);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult: ");
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                ToastUtils.showShort(getActivity(), "请允许权限！");
+            }
+        }
     }
 
     @Override
