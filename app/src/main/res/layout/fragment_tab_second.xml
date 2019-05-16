@@ -27,7 +27,7 @@
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="match_parent"
-                    android:layout_height="293dp"
+                    android:layout_height="300dp"
                     app:srcCompat="@drawable/suit" />
             </LinearLayout>
 
@@ -42,34 +42,33 @@
                     android:id="@+id/selectCityBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:insetBottom="12dp"
+                    android:layout_marginBottom="12dp"
                     android:text="选择目标城市" />
 
                 <TextView
                     android:id="@+id/resultV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
                     android:gravity="center"
+                    android:layout_marginBottom="12dp"
                     android:text="请选择城市" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
 
                     <Spinner
                         android:id="@+id/spinner1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
                         android:layout_weight="1" />
 
                     <Spinner
                         android:id="@+id/spinner2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
                         android:layout_weight="1" />
                 </LinearLayout>
 
