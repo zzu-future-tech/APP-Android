@@ -101,7 +101,7 @@ public class SecondTabFragment extends BaseMainFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position==0){
                     //ToastUtils.showShort(getContext(),parent.getItemAtPosition(position).toString());
-                    attr = "休闲";
+                    attr = "其他";
                 }else{
                     attr = parent.getItemAtPosition(position).toString();
                 }

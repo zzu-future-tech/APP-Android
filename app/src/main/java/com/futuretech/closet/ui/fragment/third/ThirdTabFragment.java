@@ -100,7 +100,7 @@ public class ThirdTabFragment extends BaseMainFragment {
 
         Glide
                 .with(getContext())
-                .load(R.drawable.pic1)
+                .load(R.drawable.pic2)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imageView);
 

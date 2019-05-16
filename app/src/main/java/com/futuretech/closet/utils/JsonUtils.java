@@ -75,7 +75,7 @@ public class JsonUtils {
         try {
             JSONArray jsonArray = new JSONArray(resp);
 
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 12; i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 if (jsonObject != null) {
