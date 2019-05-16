@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.futuretech.closet.R;
 import com.futuretech.closet.adapter.FriendAdapter;
 import com.futuretech.closet.base.BaseMainFragment;
@@ -34,6 +36,7 @@ public class ThirdTabFragment extends BaseMainFragment {
     private List<Friend> friendList=new ArrayList<>();
     private FriendAdapter adapter;
     private RecyclerView recyclerView;
+    private ImageView imageView;
 
     public static ThirdTabFragment newInstance() {
 
@@ -56,11 +59,14 @@ public class ThirdTabFragment extends BaseMainFragment {
 //        toolbar = view.findViewById(R.id.toolbar);
 //        toolbar.setTitle(R.string.community);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        imageView = view.findViewById(R.id.friends_image_view);
         initFriends();
         fab = view.findViewById(R.id.add);
         fab.setOnClickListener(v -> {
             ((MainFragment) getParentFragment()).startBrotherFragment(FriendAddFragment.newInstance());
         });
+
+
 
         AppBarLayout appBarLayout = view.findViewById(R.id.appBar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -92,11 +98,17 @@ public class ThirdTabFragment extends BaseMainFragment {
         adapter = new FriendAdapter(friendList);
         recyclerView.setAdapter(adapter);
 
+        Glide
+                .with(getContext())
+                .load(R.drawable.pic1)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(imageView);
+
     }
 
     private void initFriends() {
         friendList.clear();
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 20; i++) {
             Random random = new Random();
             int index = random.nextInt(friends.length);
             friendList.add(friends[index]);
