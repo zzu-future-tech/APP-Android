@@ -112,10 +112,13 @@ public class ThirdTabFragment extends BaseMainFragment {
         try {
             DataBase db = new DataBase("clothes",getContext());
             SuitsInformationPack suit = new SuitsInformationPack(list.get(0),list.get(1),userid);
-            db.insertSuit(suit.getValues());
+            boolean isNotDuplicate = db.insertSuit(suit.getValues());
+            if(!isNotDuplicate){
+                ToastUtils.showShort(getContext(),"套装已存在！");
+            }else{
+                ToastUtils.showShort(getContext(),"添加成功");
+            }
             db.close();
-
-            ToastUtils.showShort(getContext(),"添加成功");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.futuretech.closet.model.Clothes;
 import com.futuretech.closet.model.SuitClass;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.constraint.Constraints.TAG;
 
 /**
  * Create by xu on 2019/4/20
@@ -194,10 +197,28 @@ public class DataBase {
         return list;
     }
 
-    public void insertSuit(ContentValues values)throws Exception{
+    /**
+     * 插入套装 插入之前检查是否重复
+     * @param values 套装
+     * @return 重复则返回false 不重复则插入并返回true
+     * @throws Exception 插入失败
+     */
+    public boolean insertSuit(ContentValues values)throws Exception{
         try {
+
+            String sql = "select count(*) from suits where dressid1=? and dressid2=?";
+            Cursor cursor = db.rawQuery(sql, new String[]{values.get("dressid1").toString(), values.get("dressid2").toString()});
+            if(cursor.moveToNext()){
+                int count = cursor.getInt(0);
+                if(count>0){
+                    return false;
+                }
+            }
+
             db.execSQL("insert into suits (dressid1,dressid2,userid,gmt_create) values(?,?,?,datetime('now','localtime'))", new Object[]{Integer.parseInt(values.get("dressid1").toString()),
                     Integer.parseInt(values.get("dressid2").toString()),values.get("userid")});
+
+            return true;
         } catch (Exception e) {
             throw new Exception("插入失败", e);
         }
