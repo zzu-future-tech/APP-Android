@@ -1,42 +1,51 @@
 package com.futuretech.closet.ui.fragment.third;
 
-import android.graphics.Color;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.futuretech.closet.R;
-import com.futuretech.closet.adapter.FriendAdapter;
+import com.futuretech.closet.adapter.SuitAdapter;
 import com.futuretech.closet.base.BaseMainFragment;
-import com.futuretech.closet.model.Friend;
+import com.futuretech.closet.db.DataBase;
+import com.futuretech.closet.db.SuitsInformationPack;
+import com.futuretech.closet.event.MessageEvent;
+import com.futuretech.closet.model.SuitClass;
 import com.futuretech.closet.ui.fragment.MainFragment;
+import com.futuretech.closet.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class ThirdTabFragment extends BaseMainFragment {
 
-    Toolbar toolbar;
-    private FloatingActionButton fab;
+    private List<Integer> list = new ArrayList<>();
+    private SuitAdapter adapter;
 
-    private Friend[] friends={new Friend(R.drawable.pic2),new Friend(R.drawable.pic7),new Friend(R.drawable.pic7)};
-    private List<Friend> friendList=new ArrayList<>();
-    private FriendAdapter adapter;
-    private RecyclerView recyclerView;
-    private ImageView imageView;
+    @BindView(R.id.grid_suits)
+    GridView gridView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.add_suits)
+    FloatingActionButton addBtn;
 
     public static ThirdTabFragment newInstance() {
 
@@ -51,38 +60,17 @@ public class ThirdTabFragment extends BaseMainFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_third, container, false);
+        ButterKnife.bind(this,view);
         initView(view);
+        setView();
         return view;
     }
 
     private void initView(View view) {
-//        toolbar = view.findViewById(R.id.toolbar);
-//        toolbar.setTitle(R.string.community);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        imageView = view.findViewById(R.id.friends_image_view);
-        initFriends();
-        fab = view.findViewById(R.id.add);
-        fab.setOnClickListener(v -> {
-            ((MainFragment) getParentFragment()).startBrotherFragment(FriendAddFragment.newInstance());
-        });
+        toolbar.setTitle(R.string.suit);
 
-
-
-        AppBarLayout appBarLayout = view.findViewById(R.id.appBar);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                CollapsingToolbarLayout collapsingToolbar = view.findViewById(R.id.collapsing_toolbar);
-                collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.textColorSecondary));
-                ImageView imageView = view.findViewById(R.id.image1);
-                if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) { // 折叠状态
-                    collapsingToolbar.setTitle("社区");
-                    imageView.setVisibility(View.GONE);
-                } else { // 非折叠状态
-                    collapsingToolbar.setTitle("");
-                    imageView.setVisibility(View.VISIBLE);
-                }
-            }
+        addBtn.setOnClickListener(v -> {
+            ((MainFragment) getParentFragment()).startBrotherFragment(FirstTabFragment_Top.newInstance());
         });
 
 
@@ -93,25 +81,83 @@ public class ThirdTabFragment extends BaseMainFragment {
         super.onLazyInitView(savedInstanceState);
 
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new FriendAdapter(friendList);
-        recyclerView.setAdapter(adapter);
-
-        Glide
-                .with(getContext())
-                .load(R.drawable.pic2)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(imageView);
-
     }
 
-    private void initFriends() {
-        friendList.clear();
-        for (int i = 0; i < 20; i++) {
-            Random random = new Random();
-            int index = random.nextInt(friends.length);
-            friendList.add(friends[index]);
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this); // 将该对象注册到 EventBus
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this); // 解除注册关系
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(MessageEvent event) { // 监听 MessageEvent 事件
+        int dressid = event.dressid;
+        Log.v(TAG, "GET event: "+dressid);
+        list.add(dressid);
+    }
+
+    public void addSuit(List<Integer> list){
+
+        //userid
+        SharedPreferences share = getActivity().getSharedPreferences("Login",
+                Context.MODE_PRIVATE);
+        String userid = share.getString("Email",null);
+
+        try {
+            DataBase db = new DataBase("clothes",getContext());
+            SuitsInformationPack suit = new SuitsInformationPack(list.get(0),list.get(1),userid);
+            db.insertSuit(suit.getValues());
+            db.close();
+
+            ToastUtils.showShort(getContext(),"添加成功");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtils.showShort(getContext(),"添加失败");
         }
+    }
+
+    private void setView(){
+        List<SuitClass> list=null;
+        try {
+            DataBase db = new DataBase("clothes",getContext());
+            list = db.queryAllSuits();
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (list != null) {
+            adapter = new SuitAdapter(getActivity(), list);
+        }
+
+        gridView.setAdapter(adapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //int dressid = adapter.getItem(position).getDressid();
+                ((MainFragment) getParentFragment()).startBrotherFragment(SuitsInfoFragment.newInstance(adapter.getItem(position)));
+                //Toast.makeText(getActivity(), "点击了"+adapter.getItem(position).getId(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        if(list!=null){
+            if(list.size()==2){
+                addSuit(list);
+                list.clear();
+            }
+        }
+        setView();
     }
 }

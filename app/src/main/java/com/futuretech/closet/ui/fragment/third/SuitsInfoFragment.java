@@ -1,4 +1,4 @@
-package com.futuretech.closet.ui.fragment.central;
+package com.futuretech.closet.ui.fragment.third;
 
 import android.support.v7.app.AlertDialog;
 import android.net.Uri;
@@ -44,7 +44,7 @@ public class SuitsInfoFragment extends BaseBackFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_tab_central_suits_info, container, false);
+        view = inflater.inflate(R.layout.fragment_tab_third_suits_info, container, false);
         initView(view);
 
         return view;

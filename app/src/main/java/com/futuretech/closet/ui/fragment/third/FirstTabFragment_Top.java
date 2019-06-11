@@ -1,4 +1,4 @@
-package com.futuretech.closet.ui.fragment.central;
+package com.futuretech.closet.ui.fragment.third;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,16 +12,10 @@ import android.widget.ListView;
 import com.futuretech.closet.R;
 import com.futuretech.closet.adapter.ClothesAdapterOne;
 import com.futuretech.closet.base.BaseBackFragment;
-import com.futuretech.closet.base.BaseMainFragment;
 import com.futuretech.closet.model.ClothesClass;
-import com.futuretech.closet.ui.fragment.MainFragment;
-import com.futuretech.closet.ui.fragment.first.ClothesFragment;
-import com.futuretech.closet.ui.fragment.first.FirstTabFragment;
 
 
 import java.util.ArrayList;
-
-import me.yokeyword.fragmentation.SupportFragment;
 
 public class FirstTabFragment_Top extends BaseBackFragment {
 

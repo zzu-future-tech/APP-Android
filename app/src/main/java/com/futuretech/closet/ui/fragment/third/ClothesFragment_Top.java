@@ -1,16 +1,14 @@
-package com.futuretech.closet.ui.fragment.central;
+package com.futuretech.closet.ui.fragment.third;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.futuretech.closet.R;
 import com.futuretech.closet.adapter.ClothesAdapterTwo;
@@ -20,20 +18,14 @@ import com.futuretech.closet.db.DataBase;
 import com.futuretech.closet.event.MessageEvent;
 import com.futuretech.closet.model.Clothes;
 import com.futuretech.closet.ui.fragment.MainFragment;
-import com.futuretech.closet.ui.fragment.central.CentralTabFragment;
 import com.futuretech.closet.ui.fragment.first.add.AddClothesFragment;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static android.support.constraint.Constraints.TAG;
 
-
-public class ClothesFragment_Bottom extends BaseBackFragment {
+public class ClothesFragment_Top extends BaseBackFragment {
 
     private Toolbar toolbar;
     private GridView gridView;
@@ -42,10 +34,10 @@ public class ClothesFragment_Bottom extends BaseBackFragment {
     private FloatingActionButton addBtn;
 
 
-    public static ClothesFragment_Bottom newInstance(String name) {
+    public static ClothesFragment_Top newInstance(String name) {
 
         Bundle args = new Bundle();
-        ClothesFragment_Bottom fragment = new ClothesFragment_Bottom();
+        ClothesFragment_Top fragment = new ClothesFragment_Top();
         fragment.setArguments(args);
 
         className = name;
@@ -96,7 +88,9 @@ public class ClothesFragment_Bottom extends BaseBackFragment {
             e.printStackTrace();
         }
 
-        adapter = new ClothesAdapterTwo(getActivity(), list);
+        if (list != null) {
+            adapter = new ClothesAdapterTwo(getActivity(), list);
+        }
 
         gridView.setAdapter(adapter);
 
@@ -105,7 +99,7 @@ public class ClothesFragment_Bottom extends BaseBackFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int dressid = adapter.getItem(position).getDressid();
                 EventBus.getDefault().post(new MessageEvent(dressid));  // 发布事件
-                popTo(MainFragment.class,false);
+                startWithPopTo(FirstTabFragment_Bottom.newInstance(),MainFragment.class,false);
             }
         });
     }
