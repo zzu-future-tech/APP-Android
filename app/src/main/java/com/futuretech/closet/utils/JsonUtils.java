@@ -93,4 +93,16 @@ public class JsonUtils {
         }
         return suits;
     }
+
+    public static JSONObject sendSuitJson(String dressid1,String dressid2){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("dressid1",dressid1);
+            jsonObject.put("dressid2",dressid2);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 }

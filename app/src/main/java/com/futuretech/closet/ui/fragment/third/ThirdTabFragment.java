@@ -1,8 +1,10 @@
 package com.futuretech.closet.ui.fragment.third;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
@@ -21,17 +23,27 @@ import com.futuretech.closet.db.SuitsInformationPack;
 import com.futuretech.closet.event.MessageEvent;
 import com.futuretech.closet.model.SuitClass;
 import com.futuretech.closet.ui.fragment.MainFragment;
+import com.futuretech.closet.utils.JsonUtils;
 import com.futuretech.closet.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -102,27 +114,29 @@ public class ThirdTabFragment extends BaseMainFragment {
         list.add(dressid);
     }
 
-    public void addSuit(List<Integer> list){
+    public static void addSuit(int dressid1, int dressid2, Activity activity,Context context){
 
         //userid
-        SharedPreferences share = getActivity().getSharedPreferences("Login",
+        SharedPreferences share = activity.getSharedPreferences("Login",
                 Context.MODE_PRIVATE);
         String userid = share.getString("Email",null);
 
         try {
-            DataBase db = new DataBase("clothes",getContext());
-            SuitsInformationPack suit = new SuitsInformationPack(list.get(0),list.get(1),userid);
+            DataBase db = new DataBase("clothes",context);
+            SuitsInformationPack suit = new SuitsInformationPack(dressid1,dressid2,userid);
             boolean isNotDuplicate = db.insertSuit(suit.getValues());
             if(!isNotDuplicate){
-                ToastUtils.showShort(getContext(),"套装已存在！");
+                ToastUtils.showShort(context,"套装已存在！");
             }else{
-                ToastUtils.showShort(getContext(),"添加成功");
+                ToastUtils.showShort(context,"添加成功");
+                //发送至服务器
+                sentSuit(Integer.toString(dressid1),Integer.toString(dressid2));
             }
             db.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-            ToastUtils.showShort(getContext(),"添加失败");
+            ToastUtils.showShort(context,"添加失败");
         }
     }
 
@@ -157,10 +171,40 @@ public class ThirdTabFragment extends BaseMainFragment {
         super.onSupportVisible();
         if(list!=null){
             if(list.size()==2){
-                addSuit(list);
+                addSuit(list.get(0),list.get(1),getActivity(),getContext());
                 list.clear();
             }
         }
         setView();
     }
+
+    private static void sentSuit(String dressid1,String dressid2){
+        JSONObject json = JsonUtils.sendSuitJson(dressid1,dressid2);
+
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, json.toString());
+        Request request = new Request.Builder()
+                .url("http://39.105.83.165/service/suit/updateWeightAboutType.action")
+                .post(body)
+                .build();
+        //new call
+        Call call = mOkHttpClient.newCall(request);
+        //请求加入调度
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "sentSuit 网络请求失败");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String resp = response.body().string();
+                Log.d(TAG, "sentSuit 网络请求返回码:" + response.code());
+                //Log.d(TAG, "AddClothes 网络请求返回:" + resp);
+            }
+        });
+    }
+
 }

@@ -25,8 +25,11 @@ import com.futuretech.closet.model.SuitClass;
 import com.futuretech.closet.utils.PhotoUtils;
 import com.futuretech.closet.utils.ToastUtils;
 
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.futuretech.closet.ui.fragment.third.ThirdTabFragment.addSuit;
 
 public class MatchInfoFragment extends BaseBackFragment {
     @BindView(R.id.add)
@@ -75,7 +78,7 @@ public class MatchInfoFragment extends BaseBackFragment {
                     .setTitle("添加")
                     //setMessage是用来显示字符串的
                     .setMessage("确认添加进我的搭配？")
-                    .setPositiveButton("确定", (dialog1, which) -> addSuit())
+                    .setPositiveButton("确定", (dialog1, which) -> addSuit(suit.getTopId(),suit.getBottomId(),getActivity(),getContext()))
                     .setNegativeButton("取消", null)
                     .create();
             dialog.show();
@@ -85,24 +88,28 @@ public class MatchInfoFragment extends BaseBackFragment {
     }
 
 
-    private void addSuit(){
-        DataBase db = null;
-        //userid
-        SharedPreferences share = getActivity().getSharedPreferences("Login",
-                Context.MODE_PRIVATE);
-        String userid = share.getString("Email",null);
-
-        SuitsInformationPack suitPack = new SuitsInformationPack(suit.getTopId(),suit.getBottomId(),userid);
-        try {
-            db = new DataBase("clothes",getContext());
-            db.insertSuit(suitPack.getValues());
-            db.close();
-            ToastUtils.showShort(getContext(),"添加成功！");
-        } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtils.showShort(getContext(),"添加失败！");
-        }
-    }
+//    private void addSuit(){
+//        DataBase db = null;
+//        //userid
+//        SharedPreferences share = getActivity().getSharedPreferences("Login",
+//                Context.MODE_PRIVATE);
+//        String userid = share.getString("Email",null);
+//
+//        SuitsInformationPack suitPack = new SuitsInformationPack(,userid);
+//        try {
+//            db = new DataBase("clothes",getContext());
+//            boolean isNotDuplicate = db.insertSuit(suitPack.getValues());
+//            if(!isNotDuplicate){
+//                ToastUtils.showShort(getContext(),"套装已存在！");
+//            }else{
+//                ToastUtils.showShort(getContext(),"添加成功");
+//            }
+//            db.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            ToastUtils.showShort(getContext(),"添加失败！");
+//        }
+//    }
 
 
 
