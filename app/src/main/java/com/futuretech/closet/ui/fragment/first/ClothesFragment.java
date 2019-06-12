@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.futuretech.closet.R;
 import com.futuretech.closet.adapter.ClothesAdapterTwo;
@@ -20,10 +18,7 @@ import com.futuretech.closet.db.DataBase;
 import com.futuretech.closet.model.Clothes;
 import com.futuretech.closet.ui.fragment.first.add.AddClothesFragment;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static android.support.constraint.Constraints.TAG;
 
 
 public class ClothesFragment extends BaseBackFragment {

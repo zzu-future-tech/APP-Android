@@ -37,7 +37,6 @@ import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.db.ClothesInformationPack;
 import com.futuretech.closet.db.DataBase;
 import com.futuretech.closet.model.Clothes;
-import com.futuretech.closet.ui.fragment.first.add.AddClothesFragment;
 import com.futuretech.closet.utils.AttributeUtils;
 import com.futuretech.closet.utils.JsonUtils;
 import com.futuretech.closet.utils.PhotoUtils;
@@ -49,7 +48,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -84,7 +82,7 @@ public class UpdateClothesFragment extends BaseBackFragment {
     @BindView(R.id.save)
     Button saveBtn;
 
-    Unbinder unbinder;
+    private Unbinder unbinder;
     private Toolbar toolbar;
 
 
@@ -333,12 +331,12 @@ public class UpdateClothesFragment extends BaseBackFragment {
     /**
      * 检查设备是否存在SDCard的工具方法
      */
-    public static boolean hasSdcard() {
+    private static boolean hasSdcard() {
         String state = Environment.getExternalStorageState();
         return state.equals(Environment.MEDIA_MOUNTED);
     }
 
-    public void saveClothes() {
+    private void saveClothes() {
         //厚薄
         String thicknessStr = String.valueOf(thickness.getProgress() + 1);
         Log.d(TAG, "thickness: " + thicknessStr);

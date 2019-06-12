@@ -24,7 +24,6 @@ import com.futuretech.closet.base.BaseMainFragment;
 import com.futuretech.closet.model.SuitClass;
 import com.futuretech.closet.ui.fragment.MainFragment;
 import com.futuretech.closet.utils.JsonUtils;
-import com.futuretech.closet.utils.ToastUtils;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
@@ -34,7 +33,6 @@ import com.zaaach.citypicker.model.LocatedCity;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.List;
 
 import butterknife.BindView;

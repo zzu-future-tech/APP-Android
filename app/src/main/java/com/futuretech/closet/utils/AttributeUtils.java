@@ -1,15 +1,8 @@
 package com.futuretech.closet.utils;
 
-import android.util.Log;
-
-import com.futuretech.closet.MainActivity;
-import com.futuretech.closet.R;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static android.support.constraint.Constraints.TAG;
 
 /**
  * 处理Attribute属性值的字符串

@@ -1,12 +1,8 @@
 package com.futuretech.closet.ui.fragment.first;
 
-import android.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -14,22 +10,16 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.futuretech.closet.R;
 import com.futuretech.closet.base.BaseBackFragment;
 import com.futuretech.closet.db.DataBase;
-import com.futuretech.closet.model.Clothes;
 import com.futuretech.closet.ui.fragment.first.update.UpdateClothesFragment;
 import com.futuretech.closet.utils.JsonUtils;
 import com.futuretech.closet.utils.PhotoUtils;
@@ -38,9 +28,7 @@ import com.futuretech.closet.utils.ToastUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -183,7 +171,7 @@ public class ClothesInfoFragment extends BaseBackFragment {
 
     }
 
-    public void postJson(String json) {
+    private void postJson(String json) {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         OkHttpClient mOkHttpClient = new OkHttpClient();
         RequestBody body = RequestBody.create(JSON, json);

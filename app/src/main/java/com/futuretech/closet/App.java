@@ -5,7 +5,7 @@ import android.app.Application;
 import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
-public class App extends Application {
+class App extends Application {
 
     @Override
     public void onCreate() {

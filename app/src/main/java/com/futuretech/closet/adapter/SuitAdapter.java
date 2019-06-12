@@ -9,17 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.futuretech.closet.R;
-import com.futuretech.closet.model.ClothesClass;
 import com.futuretech.closet.model.SuitClass;
 import com.futuretech.closet.utils.PhotoUtils;
 
 import java.util.List;
-import java.util.Objects;
 
 public class SuitAdapter extends ArrayAdapter<SuitClass> {
     public SuitAdapter(@NonNull Context context, @NonNull List<SuitClass> objects) {

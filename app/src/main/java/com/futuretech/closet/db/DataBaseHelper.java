@@ -9,15 +9,15 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Create by xu on 2019/4/17
  * 仅在需要为数据库增加新表时改动此类中的onCreate方法；
  */
-public class DataBaseHelper extends SQLiteOpenHelper {
+class DataBaseHelper extends SQLiteOpenHelper {
     private static final int version=4;
-    public DataBaseHelper(Context context, String name, CursorFactory factory, int version){
+    private DataBaseHelper(Context context, String name, CursorFactory factory, int version){
                super (context,name,factory,version );
     }
     public DataBaseHelper(Context context, String name){
         this(context,name,version);
     }
-    public DataBaseHelper(Context context, String name, int version ){
+    private DataBaseHelper(Context context, String name, int version){
         this( context,name,null,version);
     }
     @Override

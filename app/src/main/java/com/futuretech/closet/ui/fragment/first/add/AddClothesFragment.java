@@ -80,7 +80,7 @@ public class AddClothesFragment extends BaseBackFragment {
     @BindView(R.id.save)
     Button saveBtn;
 
-    Unbinder unbinder;
+    private Unbinder unbinder;
     private Toolbar toolbar;
 
     private static final int CODE_GALLERY_REQUEST = 0xa0;
@@ -320,13 +320,13 @@ public class AddClothesFragment extends BaseBackFragment {
     /**
      * 检查设备是否存在SDCard的工具方法
      */
-    public static boolean hasSdcard() {
+    private static boolean hasSdcard() {
         String state = Environment.getExternalStorageState();
         return state.equals(Environment.MEDIA_MOUNTED);
     }
 
     //标签初始化
-    public void initFlowView(View view){
+    private void initFlowView(View view){
         fv_attribute = view.findViewById(R.id.fv_style0);
 
         List list = new ArrayList();
@@ -337,7 +337,7 @@ public class AddClothesFragment extends BaseBackFragment {
     }
 
     //保存
-    public void saveClothes(){
+    private void saveClothes(){
         //厚薄
         String thicknessStr = String.valueOf(thickness.getProgress()+1);
         Log.d(TAG, "thickness: "+thicknessStr);

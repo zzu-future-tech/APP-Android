@@ -6,7 +6,7 @@ import android.content.ContentValues;
  * Create by xu on 2019/4/22
  * 对从ui获得是数据进行封装 传出ContentValues 供数据库中userInformation表操作
  */
-public class UserInformationPack {
+class UserInformationPack {
     private ContentValues values;
     public UserInformationPack(int id, String userid, String password, String nickname, String sex, String phone , String birthday){
         values =new ContentValues();

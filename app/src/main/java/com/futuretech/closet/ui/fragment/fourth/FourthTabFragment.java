@@ -42,7 +42,7 @@ public class FourthTabFragment extends BaseMainFragment {
             loadFragment();
         }
 
-        mToolbar = (Toolbar) mView.findViewById(R.id.toolbar);
+        mToolbar = mView.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.me);
     }
 

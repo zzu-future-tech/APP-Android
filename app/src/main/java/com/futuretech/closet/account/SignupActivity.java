@@ -104,7 +104,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     //点击发送验证码按钮后的操作
-    public void sendCode() {
+    private void sendCode() {
         if (!validate()) {
             //onSignupFailed();
             Toast.makeText(getBaseContext(), "请输入有效的邮箱及密码", Toast.LENGTH_LONG).show();
@@ -123,7 +123,7 @@ public class SignupActivity extends AppCompatActivity {
         doSignup1(email, password);
     }
 
-    public void signup() {
+    private void signup() {
         Log.d(TAG, "Signup");
 
         if (!validateCode()) {
@@ -147,7 +147,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
-    public void onSignupSuccess() {
+    private void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
 
@@ -170,13 +170,13 @@ public class SignupActivity extends AppCompatActivity {
 
     }
 
-    public void onSignupFailed() {
+    private void onSignupFailed() {
         Toast.makeText(getBaseContext(), "注册失败", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
 
-    public void onSendCodeSuccess() {
+    private void onSendCodeSuccess() {
         _signupButton.setEnabled(true);
         _codeText.setEnabled(true);
         //不允许修改账号密码
@@ -184,12 +184,12 @@ public class SignupActivity extends AppCompatActivity {
         _passwordText.setEnabled(false);
     }
 
-    public void onSendCodeFailed() {
+    private void onSendCodeFailed() {
         Toast.makeText(getBaseContext(), "发送验证码失败", Toast.LENGTH_LONG).show();
     }
 
 
-    public boolean validate() {
+    private boolean validate() {
         boolean valid = true;
 
         String email = _emailText.getText().toString();
@@ -213,7 +213,7 @@ public class SignupActivity extends AppCompatActivity {
         return valid;
     }
 
-    public boolean validateCode() {
+    private boolean validateCode() {
         boolean valid = true;
         String code = _codeText.getText().toString();
 
@@ -226,7 +226,7 @@ public class SignupActivity extends AppCompatActivity {
         return valid;
     }
 
-    public void doSignup1(String email, String psw) {
+    private void doSignup1(String email, String psw) {
         //创建okHttpClient对象
         OkHttpClient mOkHttpClient = new OkHttpClient();
         //String url = "http://39.105.83.165/service/user/insertUser.action"+"?userid="+email+"&password="+psw;
@@ -279,7 +279,7 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    public void doSignup2(String email, String code) {
+    private void doSignup2(String email, String code) {
         //创建okHttpClient对象
         OkHttpClient mOkHttpClient = new OkHttpClient();
 

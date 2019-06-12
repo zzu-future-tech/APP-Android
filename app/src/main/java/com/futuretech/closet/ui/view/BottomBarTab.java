@@ -31,11 +31,11 @@ public class BottomBarTab extends FrameLayout {
         this(context, null, icon, title);
     }
 
-    public BottomBarTab(Context context, AttributeSet attrs, int icon, CharSequence title) {
+    private BottomBarTab(Context context, AttributeSet attrs, int icon, CharSequence title) {
         this(context, attrs, 0, icon, title);
     }
 
-    public BottomBarTab(Context context, AttributeSet attrs, int defStyleAttr, int icon, CharSequence title) {
+    private BottomBarTab(Context context, AttributeSet attrs, int defStyleAttr, int icon, CharSequence title) {
         super(context, attrs, defStyleAttr);
         init(context, icon, title);
     }

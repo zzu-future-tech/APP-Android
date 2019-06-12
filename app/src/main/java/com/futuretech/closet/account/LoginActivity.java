@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void login() {
+    private void login() {
         Log.d(TAG, "Login");
 
         if (!validate()) {
@@ -123,18 +123,18 @@ public class LoginActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-    public void onLoginSuccess() {
+    private void onLoginSuccess() {
         _loginButton.setEnabled(true);
         finish();
     }
 
-    public void onLoginFailed() {
+    private void onLoginFailed() {
         Toast.makeText(getBaseContext(), "登陆失败", Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }
 
-    public boolean validate() {
+    private boolean validate() {
         boolean valid = true;
 
         String email = _emailText.getText().toString();
@@ -157,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    public void doLogin(String email, String psw) {
+    private void doLogin(String email, String psw) {
         //创建okHttpClient对象
         OkHttpClient mOkHttpClient = new OkHttpClient();
 

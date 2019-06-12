@@ -32,7 +32,7 @@ public class SettingsFragment extends SupportFragment {
     }
 
     private void initView(View view) {
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbarSettings);
+        mToolbar = view.findViewById(R.id.toolbarSettings);
 
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

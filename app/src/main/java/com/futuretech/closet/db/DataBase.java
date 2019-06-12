@@ -5,15 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.futuretech.closet.model.Clothes;
 import com.futuretech.closet.model.SuitClass;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.support.constraint.Constraints.TAG;
 
 /**
  * Create by xu on 2019/4/20
@@ -27,7 +24,7 @@ public class DataBase {
 
     private String userid;
 
-    public SQLiteDatabase db;
+    private SQLiteDatabase db;
 
     /*
      *注册时初始化构造方法即可创建数据库 目前只创建用户信息表user和衣物信息表clothesInformation
@@ -119,6 +116,7 @@ public class DataBase {
                     cursor.getString(cursor.getColumnIndex("thickness")),
                     cursor.getString(cursor.getColumnIndex("attribute"))
             );
+            cursor.close();
             return clothes;
         } catch (Exception e) {
             throw new Exception("查询失败", e);
@@ -138,7 +136,7 @@ public class DataBase {
             while (cursor.moveToNext()) {
                 list.add(cursor.getInt(cursor.getColumnIndex("dressid")));
             }
-
+            cursor.close();
         } catch (Exception e) {
             throw new Exception("查询失败", e);
         }
@@ -164,7 +162,7 @@ public class DataBase {
                 );
                 list.add(clothes);
             }
-
+            cursor.close();
         } catch (Exception e) {
             throw new Exception("查询失败", e);
         }
@@ -190,7 +188,7 @@ public class DataBase {
                 );
                 list.add(clothes);
             }
-
+            cursor.close();
         } catch (Exception e) {
             throw new Exception("查询失败", e);
         }
@@ -217,7 +215,7 @@ public class DataBase {
 
             db.execSQL("insert into suits (dressid1,dressid2,userid,gmt_create) values(?,?,?,datetime('now','localtime'))", new Object[]{Integer.parseInt(values.get("dressid1").toString()),
                     Integer.parseInt(values.get("dressid2").toString()),values.get("userid")});
-
+            cursor.close();
             return true;
         } catch (Exception e) {
             throw new Exception("插入失败", e);
@@ -241,7 +239,7 @@ public class DataBase {
                 );
                 list.add(suits);
             }
-
+            cursor.close();
         } catch (Exception e) {
             throw new Exception("查询失败", e);
         }

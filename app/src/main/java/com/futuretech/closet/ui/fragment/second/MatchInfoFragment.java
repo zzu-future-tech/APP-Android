@@ -1,13 +1,9 @@
 package com.futuretech.closet.ui.fragment.second;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +15,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.futuretech.closet.R;
 import com.futuretech.closet.base.BaseBackFragment;
-import com.futuretech.closet.db.DataBase;
-import com.futuretech.closet.db.SuitsInformationPack;
 import com.futuretech.closet.model.SuitClass;
 import com.futuretech.closet.utils.PhotoUtils;
-import com.futuretech.closet.utils.ToastUtils;
 
 
 import butterknife.BindView;

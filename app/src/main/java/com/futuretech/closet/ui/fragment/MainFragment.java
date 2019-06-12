@@ -19,10 +19,10 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 public class MainFragment extends SupportFragment{
 
-    public static final int FIRST = 0;
-    public static final int SECOND = 1;
-    public static final int THIRD = 2;
-    public static final int FOURTH = 3;
+    private static final int FIRST = 0;
+    private static final int SECOND = 1;
+    private static final int THIRD = 2;
+    private static final int FOURTH = 3;
 
 
     private SupportFragment[] mFragments = new SupportFragment[4];

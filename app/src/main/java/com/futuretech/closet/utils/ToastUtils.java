@@ -9,7 +9,7 @@ import android.widget.Toast;
  */
 public class ToastUtils {
 
-    public static boolean isShow = true;
+    private static boolean isShow = true;
     private ViewGroup.LayoutParams layoutParams;
 
     private ToastUtils() {

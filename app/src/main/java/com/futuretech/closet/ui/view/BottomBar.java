@@ -138,12 +138,12 @@ public class BottomBar extends LinearLayout {
     static class SavedState extends BaseSavedState {
         private int position;
 
-        public SavedState(Parcel source) {
+        SavedState(Parcel source) {
             super(source);
             position = source.readInt();
         }
 
-        public SavedState(Parcelable superState, int position) {
+        SavedState(Parcelable superState, int position) {
             super(superState);
             this.position = position;
         }
@@ -174,11 +174,11 @@ public class BottomBar extends LinearLayout {
         show(true);
     }
 
-    public void hide(boolean anim) {
+    private void hide(boolean anim) {
         toggle(false, anim, false);
     }
 
-    public void show(boolean anim) {
+    private void show(boolean anim) {
         toggle(true, anim, false);
     }
 
