@@ -22,6 +22,7 @@ import static android.support.constraint.Constraints.TAG;
 public class MeFragment extends SupportFragment {
     private TextView mTvBtnSettings;
     private TextView mTvBtnLogout;
+    private TextView mTvBtnProfile;
     private SharedPreferences sharedPreferences;
 
     public static MeFragment newInstance() {
@@ -43,12 +44,8 @@ public class MeFragment extends SupportFragment {
 
     private void initView(View view) {
         mTvBtnSettings = view.findViewById(R.id.tv_btn_settings);
-        mTvBtnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                start(SettingsFragment.newInstance());
-
-            }
+        mTvBtnSettings.setOnClickListener(v -> {
+            start(SettingsFragment.newInstance());
         });
 
         mTvBtnLogout = view.findViewById(R.id.tv_btn_logout);
@@ -64,6 +61,11 @@ public class MeFragment extends SupportFragment {
             outIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                     | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(outIntent);
+        });
+
+        mTvBtnProfile = view.findViewById(R.id.tv_btn_profile);
+        mTvBtnProfile.setOnClickListener(v -> {
+            //((MainFragment)getParentFragment().getParentFragment()).startBrotherFragment(ProfileFragment.newInstance());
         });
     }
 

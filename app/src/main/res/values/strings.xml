@@ -33,5 +33,6 @@
         <item>5</item>
         <item>6</item>
     </string-array>
+    <string name="profile">Profile</string>
 
 </resources>
