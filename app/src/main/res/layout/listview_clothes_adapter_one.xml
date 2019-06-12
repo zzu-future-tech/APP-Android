@@ -34,7 +34,7 @@
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
-                card_view:srcCompat="@drawable/mea" />
+                card_view:srcCompat="@drawable/suit" />
 
             <TextView
                 android:id="@+id/textView"

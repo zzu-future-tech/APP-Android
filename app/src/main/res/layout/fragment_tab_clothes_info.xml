@@ -29,7 +29,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/mea" />
+                app:srcCompat="@drawable/suit" />
 
             <Button
                 android:id="@+id/edit"
